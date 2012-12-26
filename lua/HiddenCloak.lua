@@ -18,6 +18,8 @@ function CloakableMixin:GetIsCloaked() return true end
 function CloakableMixin:OnClampSpeed(input, velocity) end
 function Alien:GetCelerityAllowed() return true end
 
+// I have no idea, what I'm doing here
+// Needs fix: issue #5
 local function UpdateCloakState(self, deltaTime)
     local currentTime = Shared.GetTime()
     self:SetIsCloaked(true)

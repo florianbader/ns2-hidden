@@ -23,3 +23,13 @@ function Shared:HiddenMessage(chatMessage)
     self.Message("Chat All - Hidden Mod: " .. chatMessage)
     Server.AddChatToHistory(chatMessage, "Hidden Mod", 0, kTeamReadyRoom, false)
 end
+
+function Shared:GetPlayerByName(playerName)
+    for _, team in pairs(GetGamerules():GetTeams()) do
+        for _, player in pairs(team:GetPlayers()) do
+            if (player:GetName():lower():find(playerName)) then
+                return player
+            end 
+        end
+    end   
+end

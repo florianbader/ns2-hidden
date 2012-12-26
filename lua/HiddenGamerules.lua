@@ -9,6 +9,7 @@
 local hiddenPlayer = nil
 local hiddenPregameTenSecMessage = false
 local hiddenPregameFiveSecMessage = false
+local hiddenModLastTimeTwoPlayersToStartMessage = nil
 
 if Server then  
     // Checks if the hidden is dead
@@ -38,8 +39,8 @@ if Server then
     
     // Define the game ending rules
     function NS2Gamerules:CheckGameEnd()    
-        if self:GetGameStarted() and self.timeGameEnded == nil and not self.preventGameEnd then        
-            if self.timeLastGameEndCheck == nil or (Shared.GetTime() > self.timeLastGameEndCheck + 1) then
+        if (self:GetGameStarted() and self.timeGameEnded == nil and not self.preventGameEnd) then        
+            if (self.timeLastGameEndCheck == nil or (Shared.GetTime() > self.timeLastGameEndCheck + 1)) then
                 local team1Players = self.team1:GetNumPlayers()
                 local team2Players = self.team2:GetNumPlayers()
                 
@@ -54,36 +55,27 @@ if Server then
                     self:EndGame(self.team1)
                 elseif (self:CheckIfMarinesAreDead() == true) then                
                     Shared:HiddenMessage("All Marines are dead. The Hidden wins!")
-                    Shared:HiddenMessage(ToString(self.team1:GetNumDeadPlayers()))
-                    Shared:HiddenMessage(ToString(self.team1:GetNumPlayers()))
-                    self:EndGame(self.team2)          
+                    self:EndGame(self.team2)
+                elseif (HiddenRoundTimer:GetIsRoundTimeOver()) then       
+                    Shared:HiddenMessage("The Hidden escaped. The Hidden wins!")
+                    self:EndGame(self.team2)
                 end    
                 
                 self.timeLastGameEndCheck = Shared.GetTime()
             end
         end
     end
-            
-    // Give the alien player blink and vortex
-    local getIsTechResearched = GetIsTechResearched
-    function GetIsTechResearched(teamNumber, techId)
-        Shared:Message(teamNumber .. " " .. techId)
-        if (teamNumber == 2) then
-            if (techId == kTechId.Blink or techId == kTechId.Vortex) then
-                return true
-            end    
-        end
-        
-        return getIsTechResearched(teamNumber, techId)
-    end
-        
+                   
     // Define the rules for the game start
     function NS2Gamerules:CheckGameStart()
         if self:GetGameState() == kGameState.NotStarted or self:GetGameState() == kGameState.PreGame then
             local team1Players = self.team1:GetNumPlayers()
             local team2Players = self.team2:GetNumPlayers()
             
-            if (team1Players > 1 or (team1Players > 0 and team2Players > 0)) then
+            if (team1Players <= 1 and Shared.GetTime() - (hiddenModLastTimeTwoPlayersToStartMessage or 0) > kHiddenModTwoPlayerToStartMessage) then
+                Shared:HiddenMessage("The game won't start until there are two players.")
+                hiddenModLastTimeTwoPlayersToStartMessage = Shared.GetTime()
+            elseif (team1Players > 1 or (team1Players > 0 and team2Players > 0)) then
                 self:SetGameState(kGameState.PreGame)
             elseif self:GetGameState() == kGameState.PreGame then
                 self:SetGameState(kGameState.NotStarted)
@@ -102,6 +94,9 @@ if Server then
         end  
          
         hiddenPlayer = nil 
+        
+        // Reset the mod
+        HiddenRoundTimer:Reset()
         
         // Reset the game
         resetGame(self)
@@ -144,10 +139,10 @@ if Server then
         end    
     end
         
-    // We display a timer on pre game
+    // Display a timer on pre game
     local updatePregame = NS2Gamerules.UpdatePregame
     function NS2Gamerules:UpdatePregame(timePassed)
-        if self:GetGameState() == kGameState.PreGame then        
+        if (self:GetGameState() == kGameState.PreGame) then        
             local preGameTime = kHiddenModPregameLength  
                         
             if (self.timeSinceGameStateChanged > preGameTime) then
@@ -166,6 +161,22 @@ if Server then
         end    
     
         updatePregame(self, timePassed)
+    end
+    
+    // Hook into the update function, so we can update our mod    
+    local onUpdate = NS2Gamerules.OnUpdate
+    function NS2Gamerules:OnUpdate(timePassed)
+        if (Server) then
+            if (self:GetMapLoaded()) then
+                // Update the mod
+                if (self:GetGameState() == kGameState.Started) then   
+                    HiddenRoundTimer:UpdateRoundTimer()
+                end    
+            end    
+        end
+        
+        // Call the NS2Gamerules update function
+        onUpdate(self, timePassed)
     end
     
     // get ALL the tech!
