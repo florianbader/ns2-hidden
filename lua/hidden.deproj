@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+  <file>
+    <filename>HiddenAlien.lua</filename>
+  </file>
+  <file>
+    <filename>HiddenClient.lua</filename>
+  </file>
+  <file>
+    <filename>HiddenCloak.lua</filename>
+  </file>
+  <file>
+    <filename>HiddenGamerules.lua</filename>
+  </file>
+  <file>
+    <filename>HiddenGlobals.lua</filename>
+  </file>
+  <file>
+    <filename>HiddenPredict.lua</filename>
+  </file>
+  <file>
+    <filename>HiddenServer.lua</filename>
+  </file>
+  <file>
+    <filename>HiddenShared.lua</filename>
+  </file>
+  <file>
+    <filename>HiddenTeam.lua</filename>
+  </file>
+  <file>
+    <filename>HiddenTest.lua</filename>
+  </file>
+  <file>
+    <filename>HiddenUpgradableMixin.lua</filename>
+  </file>
+</project>

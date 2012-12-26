@@ -1,0 +1,8 @@
+<game>
+	<name>ns2</name>
+	<description>Natural Selection 2: Hidden</description>
+	<client>lua/HiddenClient.lua</client>
+	<server>lua/HiddenServer.lua</server>
+	<predict>lua/HiddenPredict.lua</predict>
+    <soundinfo>sound/NS2.soundinfo</soundinfo>
+</game>
