@@ -8,7 +8,7 @@
 
 class 'HiddenRoundTimer'
 
-HiddenRoundTimer.AnnounceTimeAt = { 120, 60, 30, 15, 5, 4, 3, 2, 1 }
+HiddenRoundTimer.AnnounceTimeAt = { 300, 240, 180, 120, 60, 30, 15, 5, 4, 3, 2, 1 }
 HiddenRoundTimer.AnnouncedTimeAlready = {}
 
 function HiddenRoundTimer:GetGameStartTime()

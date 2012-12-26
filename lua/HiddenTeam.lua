@@ -7,7 +7,7 @@
 // ======================================================
 
 // Remove the respawn queue
-function Team:PutPlayerInRespawnQueue(player) end
+//function Team:PutPlayerInRespawnQueue(player) end
 function AlienTeam:PutPlayerInRespawnQueue(player) end
 function MarineTeam:PutPlayerInRespawnQueue(player) end
 

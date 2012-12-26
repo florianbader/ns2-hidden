@@ -11,3 +11,4 @@ Script.Load("lua/Client.lua")
 
 // Load hidden mod client scripts
 Script.Load("lua/HiddenGlobals.lua")
+Script.Load("lua/HiddenCloak.lua")

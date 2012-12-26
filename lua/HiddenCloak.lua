@@ -16,14 +16,10 @@ function CloakableMixin:TriggerUncloak() end
 function CloakableMixin:GetCanCloak() return true end
 function CloakableMixin:GetIsCloaked() return true end
 function CloakableMixin:OnClampSpeed(input, velocity) end
+function CloakableMixin:SetIsCloaked(_) end
 function Alien:GetCelerityAllowed() return true end
-
-// I have no idea, what I'm doing here
-// Needs fix: issue #5
-local function UpdateCloakState(self, deltaTime)
-    local currentTime = Shared.GetTime()
-    self:SetIsCloaked(true)
     
+local function UpdateCloakState(self, deltaTime)
     self.cloakChargeTime = math.max(0, self.cloakChargeTime - deltaTime)
     
     local cloakSpeedFraction = 1
@@ -33,10 +29,22 @@ local function UpdateCloakState(self, deltaTime)
     end
     
     if (self.cloaked or ( self.GetIsCamouflaged and self:GetIsCamouflaged() )) and self:GetCanCloak() then
-        self.cloakedFraction = kHiddenModMaxCloakedFraction // math.min(kHiddenModMaxCloakedFraction, self.cloakedFraction + deltaTime * CloakableMixin.kCloakRate * cloakSpeedFraction )
+        self.cloakedFraction = math.min(1, self.cloakedFraction + deltaTime * CloakableMixin.kCloakRate * cloakSpeedFraction )
     else
-        self.cloakedFraction = 0 // math.max(0, self.cloakedFraction - deltaTime * CloakableMixin.kUnCloakRate )
-    end        
+        self.cloakedFraction = math.max(0, self.cloakedFraction - deltaTime * CloakableMixin.kUnCloakRate )
+    end
+    
+    // for smoother movement
+    if Server then
+    
+        local newFullyCloaked = self.fullyCloaked
+        self.fullyCloaked = self.cloakedFraction == 1
+        if self.OnCloak and (newFullyCloaked ~= self.fullyCloaked) then
+            self:OnCloak()
+        end
+        
+    end    
+    
 end
 
 if Server then
@@ -46,5 +54,8 @@ if Server then
 
     function CloakableMixin:OnProcessMove(input)
         UpdateCloakState(self, input.time)
-    end    
-end   
+    end
+elseif Client then
+
+ 
+end    

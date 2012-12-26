@@ -24,7 +24,7 @@ if Server then
 
     // Only allow players to join the marine team
     function NS2Gamerules:GetCanJoinTeamNumber(teamNumber)
-        return not (teamNumber == 2)
+        return (teamNumber ~= 2)
     end
     
     // Only allow players to join the marine team
@@ -36,6 +36,10 @@ if Server then
 
         return joinTeam(self, player, newTeamNumber, force) 
     end
+        
+    // Allow friendly fire to help the Hidden a bit
+    function NS2Gamerules:GetFriendlyFire() return true end
+    function GetFriendlyFire() return false end
     
     // Define the game ending rules
     function NS2Gamerules:CheckGameEnd()    
@@ -72,7 +76,7 @@ if Server then
             local team1Players = self.team1:GetNumPlayers()
             local team2Players = self.team2:GetNumPlayers()
             
-            if (team1Players <= 1 and Shared.GetTime() - (hiddenModLastTimeTwoPlayersToStartMessage or 0) > kHiddenModTwoPlayerToStartMessage) then
+            if (team1Players == 1 and Shared.GetTime() - (hiddenModLastTimeTwoPlayersToStartMessage or 0) > kHiddenModTwoPlayerToStartMessage) then
                 Shared:HiddenMessage("The game won't start until there are two players.")
                 hiddenModLastTimeTwoPlayersToStartMessage = Shared.GetTime()
             elseif (team1Players > 1 or (team1Players > 0 and team2Players > 0)) then
@@ -85,6 +89,9 @@ if Server then
     
     local resetGame = NS2Gamerules.ResetGame
     function NS2Gamerules:ResetGame()
+        // Disable auto team balance
+        Server.SetConfigSetting("auto_team_balance", nil)
+    
         // Switch the hidden to the marine team   
         if (self.team2:GetNumPlayers() > 0) then        
             for i, playerId in ipairs(self.team2.playerIds) do

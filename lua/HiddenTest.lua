@@ -64,7 +64,12 @@ local function GetDestinationOrigin(origin, direction, player, phaseGate, extent
 
 end
 
-local function OnCommandHiddenTeleport(_, player, toPlayer)    
+local function OnCommandHiddenTeleport(_, player, toPlayer)  
+    if (not player or not toPlayer) then
+        Shared.Message("hiddenteleport <player> <to player>")
+        return    
+    end    
+  
     local teleportToPlayer = Shared:GetPlayerByName(toPlayer)
     local teleportPlayer = Shared:GetPlayerByName(player)
     
@@ -79,6 +84,22 @@ local function OnCommandHiddenTeleport(_, player, toPlayer)
     end    
 end
 
+local function OnCommandHiddenThirdPerson(_, playerName)
+    if (not playerName) then
+        Shared.Message("hiddenthirdperson <playername>")
+        return    
+    end    
+
+    local player = Shared:GetPlayerByName(playerName)
+    
+    if (player:GetIsThirdPerson()) then
+        player:SetIsThirdPerson(0)
+    else
+        player:SetIsThirdPerson(4)
+    end
+end
+
 Event.Hook("Console_addbots", OnConsoleAddBots)
 Event.Hook("Console_hiddenlocation", OnCommandHiddenLocation)
 Event.Hook("Console_hiddenteleport", OnCommandHiddenTeleport)
+Event.Hook("Console_hiddenthirdperson", OnCommandHiddenThirdPerson)
