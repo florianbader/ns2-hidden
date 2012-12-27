@@ -47,5 +47,80 @@ if Server then
     end
 elseif Client then
 
+    function CloakableMixin:OnUpdateRender()
+
+        PROFILE("CloakableMixin:OnUpdateRender")
+        
+        local player = Client.GetLocalPlayer()
+    
+        local newHiddenState = self:GetIsCloaked()
+        local areEnemies = not GetAreEnemies(self, player)
+        if self.clientCloaked ~= newHiddenState then
+        
+            if self.clientCloaked ~= nil then
+                self:TriggerEffects("client_cloak_changed", {cloaked = newHiddenState, enemy = areEnemies})
+            end
+            self.clientCloaked = newHiddenState
+
+        end
+        
+        // cloaked aliens off infestation are not 100% hidden
+        local speedScalar = 0
+        
+        if self.GetVelocityLength then
+            speedScalar = self:GetVelocityLength() / 3
+        end
+             
+        self:SetOpacity(1-self.cloakedFraction, "cloak")
+
+        if self == player then
+        
+            local viewModelEnt = self:GetViewModelEntity()            
+            if viewModelEnt then
+                viewModelEnt:SetOpacity(1-self.cloakedFraction, "cloak")
+            end
+        
+        end
+        
+        local showMaterial = true //not areEnemies
+        local model = self:GetRenderModel()
+    
+        if model then
+
+            if showMaterial then
+                
+                if not self.cloakedMaterial then
+                    self.cloakedMaterial = AddMaterial(model, "cinematics/vfx_materials/cloaked.material")
+                end
+                
+                self.cloakedMaterial:SetParameter("cloakAmount", self.cloakedFraction)   
+            
+            else
+            
+                if self.cloakedMaterial then
+                    RemoveMaterial(model, self.cloakedMaterial)
+                    self.cloakedMaterial = nil
+                end
+            
+            end
+            
+            if self == player then
+                
+                local viewModelEnt = self:GetViewModelEntity()
+                if viewModelEnt and viewModelEnt:GetRenderModel() then
+                
+                    if not self.cloakedViewMaterial then
+                        self.cloakedViewMaterial = AddMaterial(viewModelEnt:GetRenderModel(), "cinematics/vfx_materials/cloaked.material")
+                    end
+                    
+                    self.cloakedViewMaterial:SetParameter("cloakAmount", self.cloakedFraction)
+                    
+                end
+                
+            end
+            
+        end    
+ 
+    end
  
 end    

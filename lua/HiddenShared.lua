@@ -6,6 +6,9 @@
 //
 // ======================================================
 
+Script.Load("lua/MarineTeam.lua")
+Script.Load("lua/AlienTeam.lua")
+
 // Returns a random player out of the given player ids.
 function Shared:GetRandomPlayer(playerIds)
     if (playerIds == nil or #playerIds <= 0) then return nil end
@@ -22,27 +25,16 @@ function Shared:HiddenMessage(chatMessage)
     Server.AddChatToHistory(chatMessage, "Hidden Mod", 0, kTeamReadyRoom, false)
 end
 
-function Shared:HiddenMessagePrivate(chatMessage, recv)    
-    local player = recv
-    if (not recv:isa("Player")) then
-        player = GetPlayerByName(recv)
-    end
-    
-    Server.SendNetworkMessage(player, "Chat", BuildChatMessage(true, "Hidden Mod", -1, player:GetTeamNumber(), kNeutralTeamType, chatMessage), true)
+function Player:HiddenMessage(chatMessage)
+    self:SendMessage("Hidden Mod", chatMessage)
 end
 
-function Shared:HiddenMessageMarines(chatMessage)
-    local players = GetEntitiesForTeam("Player", 1)
-    for index, player in ipairs(players) do
-        Shared:HiddenMessagePrivate(chatMessage, player)
-    end
+function MarineTeam:HiddenMessage(chatMessage)
+    self:SendMessage("Hidden Mod", chatMessage)
 end
 
-function Shared:HiddenMessageHidden(chatMessage)
-    local players = GetEntitiesForTeam("Player", 2)
-    for index, player in ipairs(players) do
-        Shared:HiddenMessagePrivate(chatMessage, player)
-    end
+function AlienTeam:HiddenMessage(chatMessage)
+    self:SendMessage("Hidden Mod", chatMessage)
 end
 
 function Shared:GetPlayerByName(playerName)

@@ -6,6 +6,11 @@
 //
 // ======================================================
 
+local locale = LibLoader:GetLibrary("LibLocales-1.0")
+
+local strformat = string.format
+local floor = math.floor
+
 class 'HiddenRoundTimer'
 
 HiddenRoundTimer.AnnounceTimeAt = { 300, 240, 180, 120, 60, 30, 15, 5, 4, 3, 2, 1 }
@@ -38,14 +43,14 @@ end
 
 function HiddenRoundTimer:UpdateRoundTimer()
     for _, time in pairs(HiddenRoundTimer.AnnounceTimeAt) do
-        if (not HiddenRoundTimer.AnnouncedTimeAlready[time] and math.floor(kHiddenModRoundTimerInSecs - HiddenRoundTimer:GetRoundTime()) == time) then
-            Shared:HiddenMessage(string.format("Round is over in %d seconds.", time))
+        if (not HiddenRoundTimer.AnnouncedTimeAlready[time] and floor(kHiddenModRoundTimerInSecs - HiddenRoundTimer:GetRoundTime()) == time) then
+            Shared:HiddenMessage(strformat(locale:ResolveString("HIDDEN_GAME_ENDS_IN"), time))
             HiddenRoundTimer.AnnouncedTimeAlready[time] = true
         end    
     end
     
     if (not HiddenRoundTimer.AnnouncedTimeAlready["over"] and HiddenRoundTimer:GetIsRoundTimeOver()) then        
-        Shared:HiddenMessage("The round is over.")
+        Shared:HiddenMessage(locale:ResolveString("HIDDEN_GAME_ENDS"))
         HiddenRoundTimer.AnnouncedTimeAlready["over"] = true
     end  
 end

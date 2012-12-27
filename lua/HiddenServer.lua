@@ -9,6 +9,11 @@
 // Load the ns2 server script
 Script.Load("lua/Server.lua")
 
+// Load libraries
+Script.Load("lua/libs/LibLoader/LibLoader.lua")
+Script.Load("lua/libs/LibLocales-1.0/LibLocales.lua")
+Script.Load("lua/libs/LibMessages-1.0/LibMessages.lua")
+
 // Load hidden mod server scripts
 Script.Load("lua/HiddenGlobals.lua")
 Script.Load("lua/HiddenShared.lua")

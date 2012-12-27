@@ -6,6 +6,10 @@
 //
 // ======================================================
 
+local locale = LibLoader:GetLibrary("LibLocales-1.0")
+local strformat = string.format
+local floor = math.floor
+
 local hiddenPlayer = nil
 local hiddenPregameTenSecMessage = false
 local hiddenPregameFiveSecMessage = false
@@ -31,7 +35,7 @@ if Server then
     local joinTeam = NS2Gamerules.JoinTeam    
     function NS2Gamerules:JoinTeam(player, newTeamNumber, force)
         if (newTeamNumber == 2 and not force) then
-            Shared:HiddenMessagePrivate("You can't join the Alien team. The Hidden will be chosen randomly among all players.", player)
+            player:HiddenMessage(locale:ResolveString("JOIN_ERROR_TOO_MANY"))
             return false, player
         end
 
@@ -50,19 +54,19 @@ if Server then
                 local team2Players = self.team2:GetNumPlayers()
                 
                 if (team1Players == 0) then
-                    Shared:HiddenMessage("No Marines left. The Hidden wins!")
+                    Shared:HiddenMessage(locale:ResolveString("HIDDEN_NO_MARINES_LEFT"))
                     self:EndGame(self.team2)
                 elseif (team2Players == 0) then
-                    Shared:HiddenMessage("The Hidden left. The Marines win!")
+                    Shared:HiddenMessage(locale:ResolveString("HIDDEN_NO_HIDDEN_LEFT"))
                     self:EndGame(self.team1)    
                 elseif (self:CheckIfHiddenIsDead() == true) then
-                    Shared:HiddenMessage("The Hidden is dead. The Marines win!")
+                    Shared:HiddenMessage(locale:ResolveString("HIDDEN_MARINES_VICTORY"))
                     self:EndGame(self.team1)
                 elseif (self:CheckIfMarinesAreDead() == true) then                
-                    Shared:HiddenMessage("All Marines are dead. The Hidden wins!")
+                    Shared:HiddenMessage(locale:ResolveString("HIDDEN_VICTORY"))
                     self:EndGame(self.team2)
                 elseif (HiddenRoundTimer:GetIsRoundTimeOver()) then       
-                    Shared:HiddenMessage("The Hidden escaped. The Hidden wins!")
+                    Shared:HiddenMessage(locale:ResolveString("HIDDEN_ROUND_TIME_OVER"))
                     self:EndGame(self.team2)
                 end    
                 
@@ -78,7 +82,7 @@ if Server then
             local team2Players = self.team2:GetNumPlayers()
             
             if (team1Players == 1 and Shared.GetTime() - (hiddenModLastTimeTwoPlayersToStartMessage or 0) > kHiddenModTwoPlayerToStartMessage) then
-                Shared:HiddenMessage("The game won't start until there are two players.")
+                Shared:HiddenMessage(locale:ResolveString("HIDDEN_GAME_NEEDS_TWO_PLAYERS"))
                 hiddenModLastTimeTwoPlayersToStartMessage = Shared.GetTime()
             elseif (team1Players > 1 or (team1Players > 0 and team2Players > 0)) then
                 self:SetGameState(kGameState.PreGame)
@@ -128,10 +132,12 @@ if Server then
                 HiddenMod:SpawnAsFade()
                 
                 // Some info messages
-                Shared:HiddenMessage(string.format("%s is now the Hidden.", player:GetName()))
-                Shared:HiddenMessageMarines("Your objective is: Kill the Hidden before the time runs out... or he kills you.")
-                Shared:HiddenMessageMarines("Watch where you shoot, friendly fire is on!")
-                Shared:HiddenMessageHidden("Your objective is: Kill all Marines!")
+                self:GetTeam1():HiddenMessage(strformat(locale:ResolveString("HIDDEN_PLAYER_IS_NOW_THE_HIDDEN"), player:GetName()))
+                self:GetTeam1():HiddenMessage(locale:ResolveString("HIDDEN_MARINE_GAME_STARTED_1"))
+                self:GetTeam1():HiddenMessage(locale:ResolveString("HIDDEN_MARINE_GAME_STARTED_2"))
+                
+                self:GetTeam2():HiddenMessage(strformat(locale:ResolveString("HIDDEN_YOU_ARE_NOW_THE_HIDDEN"), player:GetName()))
+                self:GetTeam2():HiddenMessage(locale:ResolveString("HIDDEN_GAME_STARTED"))
             end
         end  
         
@@ -170,12 +176,12 @@ if Server then
                 hiddenPregameTenSecMessage = false
                 hiddenPregameFiveSecMessage = false
             else
-                if (hiddenPregameFiveSecMessage == false and math.floor(preGameTime - self.timeSinceGameStateChanged) == 5) then
-                    Shared:HiddenMessage("Game starts in 5...") 
+                if (hiddenPregameFiveSecMessage == false and floor(preGameTime - self.timeSinceGameStateChanged) == 5) then
+                    Shared:HiddenMessage(strformat(locale:ResolveString("HIDDEN_GAME_STARTS_IN"), 5)) 
                     hiddenPregameFiveSecMessage = true
                     hiddenPregameTenSecMessage = true
-                elseif (hiddenPregameTenSecMessage == false and math.floor(preGameTime - self.timeSinceGameStateChanged) == 10) then
-                    Shared:HiddenMessage("Game starts in 10...")
+                elseif (hiddenPregameTenSecMessage == false and floor(preGameTime - self.timeSinceGameStateChanged) == 10) then
+                    Shared:HiddenMessage(strformat(locale:ResolveString("HIDDEN_GAME_STARTS_IN"), 10))
                     hiddenPregameTenSecMessage = true
                 end        
             end
@@ -212,16 +218,15 @@ if Server then
         return true
     end
     
-    // Welcome message!
-    local onClientConnect = Player.OnClientConnect
-    function Player:OnClientConnect(client)
-        onClientConnect(self, client)
+    // Welcome message!    
+    function NS2Gamerules:OnClientConnect(client)        
+        Gamerules.OnClientConnect(self, client)
         
         local player = client:GetControllingPlayer()
-        Shared:HiddenMessage("wat wat")
-        Shared:HiddenMessagePrivate(string.Format("Welcome %s. You are playing the Natural Selection 2: Hidden Mod.", self:GetName()), self)
-        Shared:HiddenMessagePrivate("In this mod there are Marines and the Hidden. You can only join the Marines while the Hidden is chosen randomly.", self)
-        Shared:HiddenMessagePrivate("The Marines have to kill the Hidden and the Hidden has to kill all Marines.", self)
-        Shared:HiddenMessagePrivate("But be careful, the Hidden is fast, strong and invisible!", self)
+        
+        player:HiddenMessage(strformat(locale:ResolveString("HIDDEN_WELCOME_MESSAGE_1"), player:GetName()))
+        player:HiddenMessage(locale:ResolveString("HIDDEN_WELCOME_MESSAGE_2"))
+        player:HiddenMessage(locale:ResolveString("HIDDEN_WELCOME_MESSAGE_3"))
+        player:HiddenMessage(locale:ResolveString("HIDDEN_WELCOME_MESSAGE_4"))
     end
 end
