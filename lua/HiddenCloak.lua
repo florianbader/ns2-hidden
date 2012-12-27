@@ -21,18 +21,8 @@ function Alien:GetCelerityAllowed() return true end
     
 local function UpdateCloakState(self, deltaTime)
     self.cloakChargeTime = math.max(0, self.cloakChargeTime - deltaTime)
-    
-    local cloakSpeedFraction = 1
-    
-    if self.GetSpeedScalar then
-        cloakSpeedFraction = 1 - Clamp(self:GetSpeedScalar(), 0, 1)
-    end
-    
-    if (self.cloaked or ( self.GetIsCamouflaged and self:GetIsCamouflaged() )) and self:GetCanCloak() then
-        self.cloakedFraction = math.min(1, self.cloakedFraction + deltaTime * CloakableMixin.kCloakRate * cloakSpeedFraction )
-    else
-        self.cloakedFraction = math.max(0, self.cloakedFraction - deltaTime * CloakableMixin.kUnCloakRate )
-    end
+    self.cloakedFraction = 1
+    self.fullyCloaked = true
     
     // for smoother movement
     if Server then

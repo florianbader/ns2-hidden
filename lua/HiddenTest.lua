@@ -99,7 +99,21 @@ local function OnCommandHiddenThirdPerson(_, playerName)
     end
 end
 
+local function OnCommandHiddenMe(_, playerName)
+    if (not playerName) then
+        Shared.Message("hiddenme <playername>")
+        return    
+    end    
+
+    if (not HiddenMod.nextHidden) then
+        HiddenMod.nextHidden = playerName
+    else
+        HiddenMod.nextHidden = nil
+    end    
+end
+
 Event.Hook("Console_addbots", OnConsoleAddBots)
 Event.Hook("Console_hiddenlocation", OnCommandHiddenLocation)
 Event.Hook("Console_hiddenteleport", OnCommandHiddenTeleport)
 Event.Hook("Console_hiddenthirdperson", OnCommandHiddenThirdPerson)
+Event.Hook("Console_hiddenme", OnCommandHiddenMe)

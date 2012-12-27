@@ -31,6 +31,7 @@ if Server then
     local joinTeam = NS2Gamerules.JoinTeam    
     function NS2Gamerules:JoinTeam(player, newTeamNumber, force)
         if (newTeamNumber == 2 and not force) then
+            Shared:HiddenMessagePrivate("You can't join the Alien team. The Hidden will be chosen randomly among all players.", player)
             return false, player
         end
 
@@ -39,7 +40,7 @@ if Server then
         
     // Allow friendly fire to help the Hidden a bit
     function NS2Gamerules:GetFriendlyFire() return true end
-    function GetFriendlyFire() return false end
+    function GetFriendlyFire() return true end
     
     // Define the game ending rules
     function NS2Gamerules:CheckGameEnd()    
@@ -110,14 +111,27 @@ if Server then
         
         // Choose a random player as Hidden
         if (hiddenPlayer == nil) then
-            local player = Shared:GetRandomPlayer(self.team1.playerIds)
+            local player
+            if (not HiddenMod.nextHidden) then
+                player = Shared:GetRandomPlayer(self.team1.playerIds)
+            else
+                // Some cheating for the dev mode
+                player = Shared:GetPlayerByName(HiddenMod.nextHidden)
+                if (not player) then 
+                    player = Shared:GetRandomPlayer(self.team1.playerIds)
+                end    
+            end    
             
-            if (player) then
-                Shared:HiddenMessage(string.format("%s is now the Hidden.", player:GetName()))
-                
+            if (player) then                
                 // Switch the Hidden to the alien team and give him some upgrades!
                 self:JoinTeam(player, 2, true)  
                 HiddenMod:SpawnAsFade()
+                
+                // Some info messages
+                Shared:HiddenMessage(string.format("%s is now the Hidden.", player:GetName()))
+                Shared:HiddenMessageMarines("Your objective is: Kill the Hidden before the time runs out... or he kills you.")
+                Shared:HiddenMessageMarines("Watch where you shoot, friendly fire is on!")
+                Shared:HiddenMessageHidden("Your objective is: Kill all Marines!")
             end
         end  
         
@@ -134,7 +148,7 @@ if Server then
     function NS2Gamerules:UpdateToReadyRoom()
         local state = self:GetGameState()
         if (state == kGameState.Team1Won or state == kGameState.Team2Won or state == kGameState.Draw) then        
-            if self.timeSinceGameStateChanged >= kHiddenModTimeTillNewRound then                                
+            if (self.timeSinceGameStateChanged >= kHiddenModTimeTillNewRound) then                                
                 // Reset the game
                 self:ResetGame()            
     
@@ -156,11 +170,11 @@ if Server then
                 hiddenPregameTenSecMessage = false
                 hiddenPregameFiveSecMessage = false
             else
-                if (hiddenPregameFiveSecMessage == false and preGameTime - self.timeSinceGameStateChanged < 5 and preGameTime - self.timeSinceGameStateChanged > 4) then
+                if (hiddenPregameFiveSecMessage == false and math.floor(preGameTime - self.timeSinceGameStateChanged) == 5) then
                     Shared:HiddenMessage("Game starts in 5...") 
                     hiddenPregameFiveSecMessage = true
                     hiddenPregameTenSecMessage = true
-                elseif (hiddenPregameTenSecMessage == false and preGameTime - self.timeSinceGameStateChanged < 10 and preGameTime - self.timeSinceGameStateChanged > 9) then
+                elseif (hiddenPregameTenSecMessage == false and math.floor(preGameTime - self.timeSinceGameStateChanged) == 10) then
                     Shared:HiddenMessage("Game starts in 10...")
                     hiddenPregameTenSecMessage = true
                 end        
@@ -168,6 +182,13 @@ if Server then
         end    
     
         updatePregame(self, timePassed)
+    end
+    
+    local updateMapCycle = NS2Gamerules.UpdateMapCycle
+    function NS2Gamerules:UpdateMapCycle()
+        if (state == kGameState.Team1Won or state == kGameState.Team2Won or state == kGameState.Draw) then 
+            updateMapCycle(self)
+        end
     end
     
     // Hook into the update function, so we can update our mod    
@@ -189,5 +210,18 @@ if Server then
     // get ALL the tech!
     function NS2Gamerules:GetAllTech()
         return true
+    end
+    
+    // Welcome message!
+    local onClientConnect = Player.OnClientConnect
+    function Player:OnClientConnect(client)
+        onClientConnect(self, client)
+        
+        local player = client:GetControllingPlayer()
+        Shared:HiddenMessage("wat wat")
+        Shared:HiddenMessagePrivate(string.Format("Welcome %s. You are playing the Natural Selection 2: Hidden Mod.", self:GetName()), self)
+        Shared:HiddenMessagePrivate("In this mod there are Marines and the Hidden. You can only join the Marines while the Hidden is chosen randomly.", self)
+        Shared:HiddenMessagePrivate("The Marines have to kill the Hidden and the Hidden has to kill all Marines.", self)
+        Shared:HiddenMessagePrivate("But be careful, the Hidden is fast, strong and invisible!", self)
     end
 end
