@@ -772,3 +772,5 @@ HIDDEN_WELCOME_MESSAGE_3 = "The Marines have to kill the Hidden and the Hidden h
 HIDDEN_WELCOME_MESSAGE_4 = "But be careful, the Hidden is fast, strong and invisible!"
 HIDDEN_GAME_ENDS_IN = "Round is over in %d seconds."
 HIDDEN_GAME_ENDS = "The round is over."
+HIDDEN_MARINE_SELECT_EQUIPMENT = "Select your weapon and equipment"
+HIDDEN_MARINE_SELECT_EQUIPMENT_SAVE = "SAVE"

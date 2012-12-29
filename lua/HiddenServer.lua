@@ -25,6 +25,8 @@ Script.Load("lua/HiddenRoundTimer.lua")
 Script.Load("lua/HiddenSounds.lua")
 Script.Load("lua/HiddenConsoleCommands.lua")
 Script.Load("lua/HiddenWallGrip.lua")
+Script.Load("lua/HiddenNetworkMessages_Server.lua")
+Script.Load("lua/HiddenWeapon.lua")
 Script.Load("lua/HiddenGamerules.lua")
 
 // Only include the Test script in the development version

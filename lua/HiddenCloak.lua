@@ -20,9 +20,8 @@ function CloakableMixin:SetIsCloaked(_) end
 function Alien:GetCelerityAllowed() return true end
     
 local function UpdateCloakState(self, deltaTime)
-    self.cloakChargeTime = math.max(0, self.cloakChargeTime - deltaTime)
-    self.cloakedFraction = 1
-    self.fullyCloaked = true
+    self.cloakedFraction = kHiddenModMaxCloakedFraction
+    self.fullyCloaked = false
     
     // for smoother movement
     if Server then
@@ -82,7 +81,7 @@ elseif Client then
         
         end
         
-        local showMaterial = true //not areEnemies
+        local showMaterial = not areEnemies
         local model = self:GetRenderModel()
     
         if model then
@@ -122,5 +121,5 @@ elseif Client then
         end    
  
     end
- 
+    
 end    

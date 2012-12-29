@@ -46,3 +46,11 @@ function Shared:GetPlayerByName(playerName)
         end
     end   
 end
+
+local kSelectEquipmentMessage =
+{
+    Weapon = "enum kTechId",
+    Equipment = "enum kTechId"
+}    
+
+Shared.RegisterNetworkMessage("SelectEquipment", kSelectEquipmentMessage)

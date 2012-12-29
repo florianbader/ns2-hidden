@@ -18,12 +18,26 @@ local hiddenModLastTimeTwoPlayersToStartMessage = nil
 if Server then  
     // Checks if the hidden is dead
     function NS2Gamerules:CheckIfHiddenIsDead()
-        return (self.team2:GetNumDeadPlayers() == self.team2:GetNumPlayers())   
+        return self:CheckIfAllDead(self.team2)
     end
     
     // Checks if the marines are dead
     function NS2Gamerules:CheckIfMarinesAreDead()
-        return (self.team1:GetNumDeadPlayers() == self.team1:GetNumPlayers())   
+        return self:CheckIfAllDead(self.team1)
+    end
+    
+    function NS2Gamerules:CheckIfAllDead(team)
+        local playerIds = team.playerIds
+            
+        for _, playerId in ipairs(playerIds) do
+            local player = Shared.GetEntity(playerId)
+            
+            if player ~= nil and player:GetId() ~= Entity.invalidId and player:GetIsAlive() then            
+                return false             
+            end        
+        end
+        
+        return true    
     end
 
     // Only allow players to join the marine team
@@ -203,8 +217,9 @@ if Server then
         if (Server) then
             if (self:GetMapLoaded()) then
                 // Update the mod
-                if (self:GetGameState() == kGameState.Started) then   
-                    HiddenRoundTimer:UpdateRoundTimer()
+                if (self:GetGameState() == kGameState.Started) then
+                    // no longer needed, as we have the GUI timer now
+                    //HiddenRoundTimer:UpdateRoundTimer()
                 end    
             end    
         end
