@@ -8,7 +8,7 @@
 
 function Marine:Buy()    
     // Don't allow display in the ready room
-    if (self:GetTeamNumber() ~= 0 and Client.GetLocalPlayer() == self) then    
+    if (self:GetTeamNumber() ~= 0 and Client.GetLocalPlayer() == self) then 
         if (not self.hiddenEquipmentMenu) then        
             self.hiddenEquipmentMenu = GetGUIManager():CreateGUIScript("HiddenGUIMarineEquipmentMenu")        
             MouseTracker_SetIsVisible(true, "ui/Cursor_MenuDefault.dds", true)
@@ -42,11 +42,8 @@ function Client:GetSelectedEquipment()
     return self.selectedEquipment
 end
 
-function Client:SetSelectedWeapon(weapon) 
+function Client:SetSelectedEquipment(weapon, equipment)
     self.selectedWeapon = weapon
-end
-
-function Client:SetSelectedEquipment(equipment)
     self.selectedEquipment = equipment
 end
 

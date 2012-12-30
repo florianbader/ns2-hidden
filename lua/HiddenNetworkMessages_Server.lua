@@ -22,6 +22,9 @@ local function OnMessageSelectEquipment(client, message)
         end    
     end 
     
+    // If the player gets a jetpack, we need to get the new player entitiy 
+    player = client:GetControllingPlayer()
+    
     local weapon = message.Weapon or kTechId.Rifle
     local weaponMapName = LookupTechData(weapon, kTechDataMapName)
     

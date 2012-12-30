@@ -552,8 +552,7 @@ function HiddenGUIMarineEquipmentMenu:SendKeyEvent(key, down)
                     
                     local player = Client.GetLocalPlayer()
                     if (self.selectedWeapon ~= Client:GetSelectedWeapon() and self.selectedEquipment ~= Client:GetSelectedEquipment()) then
-                        Client:SetSelectedWeapon(self.selectedWeapon)
-                        Client:SetSelectedEquipment(self.selectedEquipment)
+                        Client:SetSelectedEquipment(self.selectedWeapon, self.selectedEquipment)
                     end    
                 end
             end

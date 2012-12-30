@@ -16,6 +16,7 @@ Script.Load("lua/HiddenCloak.lua")
 Script.Load("lua/HiddenWallGrip.lua")
 Script.Load("lua/HiddenMarineSelectEquipment.lua")
 Script.Load("lua/HiddenRoundTimer.lua")
+Script.Load("lua/HiddenParasite.lua")
 
 // Only include the Test script in the development version
 if (kHiddenModVersion:lower():find("development")) then

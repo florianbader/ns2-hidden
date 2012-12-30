@@ -10,5 +10,5 @@ kHiddenModVersion = "0.1-development"
 kHiddenModTimeTillNewRound = 2
 kHiddenModPregameLength = 2
 kHiddenModRoundTimerInSecs = 300
-kHiddenModMaxCloakedFraction = 0.95
+kHiddenModMaxCloakedFraction = 0.97
 kHiddenModTwoPlayerToStartMessage = 30

@@ -142,7 +142,7 @@ if Server then
             
             if (player) then                
                 // Switch the Hidden to the alien team and give him some upgrades!
-                self:JoinTeam(player, 2, true)  
+                self:JoinTeam(player, 2, true)
                 HiddenMod:SpawnAsFade()
                 
                 // Some info messages
@@ -151,7 +151,11 @@ if Server then
                 self:GetTeam1():HiddenMessage(locale:ResolveString("HIDDEN_MARINE_GAME_STARTED_2"))
                 
                 self:GetTeam2():HiddenMessage(strformat(locale:ResolveString("HIDDEN_YOU_ARE_NOW_THE_HIDDEN"), player:GetName()))
-                self:GetTeam2():HiddenMessage(locale:ResolveString("HIDDEN_GAME_STARTED"))
+                self:GetTeam2():HiddenMessage(locale:ResolveString("HIDDEN_GAME_STARTED"))     
+           
+                if (kHiddenModVersion:lower():find("development")) then
+                    Shared:HiddenMessage("Warning! This is a development version! It's for testing purpose only!")
+                end    
             end
         end  
         
@@ -239,7 +243,7 @@ if Server then
         
         local player = client:GetControllingPlayer()
         
-        player:HiddenMessage(strformat(locale:ResolveString("HIDDEN_WELCOME_MESSAGE_1"), player:GetName()))
+        player:HiddenMessage(locale:ResolveString("HIDDEN_WELCOME_MESSAGE_1"))
         player:HiddenMessage(locale:ResolveString("HIDDEN_WELCOME_MESSAGE_2"))
         player:HiddenMessage(locale:ResolveString("HIDDEN_WELCOME_MESSAGE_3"))
         player:HiddenMessage(locale:ResolveString("HIDDEN_WELCOME_MESSAGE_4"))
