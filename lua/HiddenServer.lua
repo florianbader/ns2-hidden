@@ -28,10 +28,13 @@ Script.Load("lua/HiddenWallGrip.lua")
 Script.Load("lua/HiddenNetworkMessages_Server.lua")
 Script.Load("lua/HiddenWeapon.lua")
 Script.Load("lua/HiddenParasite.lua")
+Script.Load("lua/HiddenFade.lua")
 Script.Load("lua/HiddenGamerules.lua")
 
 // Only include the Test script in the development version
 if (kHiddenModVersion:lower():find("development")) then
     Shared:HiddenMessage("Warning! This is a development version! It's for testing purpose only!")
     Script.Load("lua/HiddenTest.lua")
+elseif (kHiddenModVersion:lower():find("alpha")) then
+    Shared:HiddenMessage("Warning! This is an alpha version, which means it's not finished yet!")
 end    

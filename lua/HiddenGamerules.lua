@@ -81,7 +81,7 @@ if Server then
                     self:EndGame(self.team2)
                 elseif (HiddenRoundTimer:GetIsRoundTimeOver()) then       
                     Shared:HiddenMessage(locale:ResolveString("HIDDEN_ROUND_TIME_OVER"))
-                    self:EndGame(self.team2)
+                    self:EndGame(self.team1)
                 end    
                 
                 self.timeLastGameEndCheck = Shared.GetTime()
@@ -155,6 +155,8 @@ if Server then
            
                 if (kHiddenModVersion:lower():find("development")) then
                     Shared:HiddenMessage("Warning! This is a development version! It's for testing purpose only!")
+                elseif (kHiddenModVersion:lower():find("alpha")) then
+                    Shared:HiddenMessage("Warning! This is an alpha version, which means it's not finished yet!")
                 end    
             end
         end  

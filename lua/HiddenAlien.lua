@@ -26,7 +26,7 @@ function HiddenMod:SpawnAsFade()
         newPlayer:GiveUpgrade(kTechId.Camouflage)
         newPlayer:GiveUpgrade(kTechId.Adrenaline)
         newPlayer:GiveUpgrade(kTechId.Celerity)
-                
+                        
         local healthScalar = player:GetHealth() / player:GetMaxHealth()
         local armorScalar = player:GetMaxArmor() == 0 and 1 or player:GetArmor() / player:GetMaxArmor()
 
@@ -34,6 +34,6 @@ function HiddenMod:SpawnAsFade()
         newPlayer:SetArmor(armorScalar * LookupTechData(kTechId.Fade, kTechDataMaxArmor))
         newPlayer:UpdateArmorAmount()       
                                 
-        HiddenMod.hiddenPlayer = newPlayer
+        self.hiddenPlayer = newPlayer
     end 
 end
