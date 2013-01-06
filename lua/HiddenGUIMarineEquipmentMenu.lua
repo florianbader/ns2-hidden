@@ -151,17 +151,17 @@ HiddenGUIMarineEquipmentMenu.kItemDescriptionOffsetY = GUIScale(300)
 HiddenGUIMarineEquipmentMenu.kItemDescriptionSize = GUIScale( Vector(450, 180, 0) )
 
 HiddenGUIMarineEquipmentMenu.weaponList = {   
-	        kTechId.Rifle,
-	        kTechId.Shotgun,
-	        kTechId.GrenadeLauncher,
-	        kTechId.Flamethrower,
-	    }
-	    
+            kTechId.Rifle,
+            kTechId.Shotgun,
+            kTechId.GrenadeLauncher,
+            kTechId.Flamethrower,
+        }
+        
 HiddenGUIMarineEquipmentMenu.equipmentList = {   
-	        kTechId.Welder,
-	        kTechId.LayMines,
-	        kTechId.Jetpack,
-	    }	    
+            kTechId.Welder,
+            kTechId.LayMines,
+            kTechId.Jetpack,
+        }        
 
 function HiddenGUIMarineEquipmentMenu:Initialize()
 

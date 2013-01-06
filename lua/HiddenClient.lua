@@ -10,14 +10,7 @@
 Script.Load("lua/Client.lua")
 
 // Load hidden mod client scripts
-Script.Load("lua/HiddenGlobals.lua")
 Script.Load("lua/HiddenShared.lua")
-Script.Load("lua/HiddenCloak.lua")
-Script.Load("lua/HiddenWallGrip.lua")
-Script.Load("lua/HiddenMarineSelectEquipment.lua")
-Script.Load("lua/HiddenRoundTimer.lua")
-Script.Load("lua/HiddenParasite.lua")
-Script.Load("lua/HiddenFade.lua")
 
 // Only include the Test script in the development version
 if (kHiddenModVersion:lower():find("development")) then

@@ -1,6 +1,6 @@
 // ===================== Hidden Mod =====================
 //
-// lua\HiddenSwipeLeap.lua
+// lua\HiddenSwipeBlink.lua
 //
 //    Created by: Rio (rio@myrio.de)
 //
@@ -10,21 +10,23 @@ Script.Load("lua/Balance.lua")
 Script.Load("lua/Weapons/Alien/Ability.lua")
 Script.Load("lua/Weapons/Alien/LeapMixin.lua")
 
-class 'SwipeLeap' (Ability)
+class 'SwipeBlink' (Ability)
 
-SwipeLeap.kMapName = "swipeleap"
+SwipeBlink.kMapName = "swipe"
 
 local networkVars =
 {
 }
 
-SwipeLeap.kSwipeEnergyCost = kSwipeEnergyCost
-SwipeLeap.kDamage = kSwipeDamage
-SwipeLeap.kRange = 1.6
+kLeapEnergyCost = 20
+
+SwipeBlink.kSwipeEnergyCost = kSwipeEnergyCost
+SwipeBlink.kDamage = kSwipeDamage
+SwipeBlink.kRange = 1.6
 
 local kAnimationGraph = PrecacheAsset("models/alien/fade/fade_view.animation_graph")
 
-function SwipeLeap:OnCreate()
+function SwipeBlink:OnCreate()
     Ability.OnCreate(self)
     
     InitMixin(self, LeapMixin)
@@ -33,35 +35,35 @@ function SwipeLeap:OnCreate()
     self.primaryAttacking = false
 end
 
-function SwipeLeap:GetAnimationGraphName()
+function SwipeBlink:GetAnimationGraphName()
     return kAnimationGraph
 end
 
-function SwipeLeap:GetEnergyCost(player)
-    return SwipeLeap.kSwipeEnergyCost
+function SwipeBlink:GetEnergyCost(player)
+    return SwipeBlink.kSwipeEnergyCost
 end
 
-function SwipeLeap:GetHUDSlot()
+function SwipeBlink:GetHUDSlot()
     return 1
 end
 
-function SwipeLeap:GetPrimaryAttackRequiresPress()
+function SwipeBlink:GetPrimaryAttackRequiresPress()
     return false
 end
 
-function SwipeLeap:GetMeleeBase()
+function SwipeBlink:GetMeleeBase()
     return 1.5, 1.2
 end
 
-function SwipeLeap:GetDeathIconIndex()
+function SwipeBlink:GetDeathIconIndex()
     return kDeathMessageIcon.Swipe
 end
 
-function SwipeLeap:GetSecondaryTechId()
+function SwipeBlink:GetSecondaryTechId()
     return kTechId.Leap
 end
 
-function SwipeLeap:OnPrimaryAttack(player)
+function SwipeBlink:OnPrimaryAttack(player)
 
     if player:GetEnergy() >= self:GetEnergyCost() then
         self.primaryAttacking = true
@@ -71,7 +73,7 @@ function SwipeLeap:OnPrimaryAttack(player)
     
 end
 
-function SwipeLeap:OnPrimaryAttackEnd()
+function SwipeBlink:OnPrimaryAttackEnd()
     
     Ability.OnPrimaryAttackEnd(self)
     
@@ -79,7 +81,7 @@ function SwipeLeap:OnPrimaryAttackEnd()
     
 end
 
-function SwipeLeap:OnHolster(player)
+function SwipeBlink:OnHolster(player)
 
     Ability.OnHolster(self, player)
     
@@ -87,9 +89,9 @@ function SwipeLeap:OnHolster(player)
     
 end
 
-function SwipeLeap:OnTag(tagName)
+function SwipeBlink:OnTag(tagName)
 
-    PROFILE("SwipeLeap:OnTag")
+    PROFILE("SwipeBlink:OnTag")
 
     if self.primaryAttacking and tagName == "start" then
     
@@ -108,18 +110,18 @@ function SwipeLeap:OnTag(tagName)
 
 end
 
-function SwipeLeap:PerformMeleeAttack()
+function SwipeBlink:PerformMeleeAttack()
 
     local player = self:GetParent()
     if player then
-        local didHit, hitObject, endPoint, surface = PerformGradualMeleeAttack(self, player, SwipeLeap.kDamage, SwipeLeap.kRange)
+        local didHit, hitObject, endPoint, surface = PerformGradualMeleeAttack(self, player, SwipeBlink.kDamage, SwipeBlink.kRange)
     end
     
 end
 
-function SwipeLeap:OnUpdateAnimationInput(modelMixin)
+function SwipeBlink:OnUpdateAnimationInput(modelMixin)
 
-    PROFILE("SwipeLeap:OnUpdateAnimationInput")
+    PROFILE("SwipeBlink:OnUpdateAnimationInput")
     
     modelMixin:SetAnimationInput("ability", "swipe")
     
@@ -128,4 +130,9 @@ function SwipeLeap:OnUpdateAnimationInput(modelMixin)
     
 end
 
-Shared.LinkClassToMap("SwipeLeap", SwipeLeap.kMapName, networkVars)
+// We don't need shadow step when we can leap
+function SwipeBlink:GetCanShadowStep()
+    return false
+end    
+
+Shared.LinkClassToMap("SwipeBlink", SwipeBlink.kMapName, networkVars)

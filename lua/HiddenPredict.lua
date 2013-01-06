@@ -10,4 +10,4 @@
 Script.Load("lua/Predict.lua")
 
 // Load hidden mod predict scripts
-Script.Load("lua/HiddenFade.lua")
+Script.Load("lua/HiddenShared.lua")

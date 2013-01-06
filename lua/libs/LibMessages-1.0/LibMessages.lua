@@ -7,7 +7,7 @@
 // ======================================================
 
 local libMessagesMajor, libMessagesMinor = "LibMessages-1.0", 1
-local lib = LibLoader:NewLibrary(libMessagesMajor, libMessagesMinor)
+local lib = LibCache:NewLibrary(libMessagesMajor, libMessagesMinor)
 if (not lib) then return end
 
 Script.Load("lua/Player.lua")

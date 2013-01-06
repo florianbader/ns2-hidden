@@ -9,8 +9,8 @@
 function Fade:InitWeapons()
     Alien.InitWeapons(self)
     
-    self:GiveItem(SwipeLeap.kMapName)
-    self:SetActiveWeapon(SwipeLeap.kMapName)    
+    self:GiveItem(SwipeBlink.kMapName) // SwipeLeap
+    self:SetActiveWeapon(SwipeBlink.kMapName)    
 end
 
 function Fade:GetTierTwoTechId()

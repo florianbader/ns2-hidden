@@ -1,34 +1,34 @@
-// ===================== LibLoader ======================
+// ===================== LibCache ======================
 //
-// LibLoader\LibLoader.lua
+// LibCache\LibCache.lua
 //
 //    Created by: Rio (rio@myrio.de)
 //
 // ======================================================
 
-local libLoaderMinor = 1
+local libCacheMinor = 1
 
-if (not LibLoader or LibLoader.minor < libLoaderMinor) then
-    LibLoader = LibLoader or { libs = {}, minor = libLoaderMinor }    
+if (not LibCache or LibCache.minor < libCacheMinor) then
+    LibCache = LibCache or { libs = {}, minor = libCacheMinor }    
     
-    function LibLoader:GetLibrary(major)
+    function LibCache:GetLibrary(major)
         assert(type(major) == "string", "major needs to be a string")
-        return LibLoader.libs[major]
+        return LibCache.libs[major]
     end
     
-    function LibLoader:NewLibrary(major, minor)
+    function LibCache:NewLibrary(major, minor)
         assert(type(major) == "string", "major needs to be a string")
         
         local minorNumber = type(minor) == "number" and minor or tonumber(minor:match("%d+"))        
         assert(type(minorNumber) == "number", "minor needs to contain a number")
         
-        local storedLib = LibLoader.libs[major]
+        local storedLib = LibCache.libs[major]
         
-        if (storedLib and storedLib.__libLoaderMinor > minorNumber) then 
+        if (storedLib and storedLib.__libCacheMinor > minorNumber) then 
             return nil 
         end
         
-        lib = { __libLoaderMinor = minor }
+        lib = { __libCacheMinor = minor }
         self.libs[major] = lib
         return lib
     end

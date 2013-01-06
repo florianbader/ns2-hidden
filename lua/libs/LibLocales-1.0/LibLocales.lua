@@ -9,7 +9,7 @@
 local strformat = string.format
 
 local LibLocalesMajor, LibLocalesMinor = "LibLocales-1.0", 1
-local lib = LibLoader:NewLibrary(LibLocalesMajor, LibLocalesMinor)
+local lib = LibCache:NewLibrary(LibLocalesMajor, LibLocalesMinor)
 if (not lib) then return end
 
 if (Server) then

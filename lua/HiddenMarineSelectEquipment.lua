@@ -30,29 +30,29 @@ function Marine:CloseMenu()
     return false
 end
 
-class 'HiddenEquipment'
+if (Client) then
+    function Client:GetSelectedWeapon() 
+        self.selectedWeapon = self.selectedWeapon or kTechId.Rifle
+        return self.selectedWeapon
+    end
 
-function Client:GetSelectedWeapon() 
-    self.selectedWeapon = self.selectedWeapon or kTechId.Rifle
-    return self.selectedWeapon
-end
+    function Client:GetSelectedEquipment()
+        self.selectedEquipment = self.selectedEquipment or kTechId.Welder
+        return self.selectedEquipment
+    end
 
-function Client:GetSelectedEquipment()
-    self.selectedEquipment = self.selectedEquipment or kTechId.Welder
-    return self.selectedEquipment
-end
+    function Client:SetSelectedEquipment(weapon, equipment)
+        self.selectedWeapon = weapon
+        self.selectedEquipment = equipment
+    end
 
-function Client:SetSelectedEquipment(weapon, equipment)
-    self.selectedWeapon = weapon
-    self.selectedEquipment = equipment
-end
+    local marineOnCountDown = Marine.OnCountDown
+    function Marine:OnCountDown()
+        marineOnCountDown(self)
+        Client:SendSelectEquipmentMessage()    
+    end
 
-local marineOnCountDown = Marine.OnCountDown
-function Marine:OnCountDown()
-    marineOnCountDown(self)
-    Client:SendSelectEquipmentMessage()    
-end
-
-function Client:SendSelectEquipmentMessage()
-    Client.SendNetworkMessage("SelectEquipment", { Weapon = self.selectedWeapon, Equipment = self.selectedEquipment }, true)
+    function Client:SendSelectEquipmentMessage()
+        Client.SendNetworkMessage("SelectEquipment", { Weapon = self.selectedWeapon, Equipment = self.selectedEquipment }, true)
+    end
 end

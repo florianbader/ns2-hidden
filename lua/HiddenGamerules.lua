@@ -6,7 +6,7 @@
 //
 // ======================================================
 
-local locale = LibLoader:GetLibrary("LibLocales-1.0")
+local locale = LibCache:GetLibrary("LibLocales-1.0")
 local strformat = string.format
 local floor = math.floor
 
@@ -15,7 +15,7 @@ local hiddenPregameTenSecMessage = false
 local hiddenPregameFiveSecMessage = false
 local hiddenModLastTimeTwoPlayersToStartMessage = nil
 
-if Server then  
+if (Server) then  
     // Checks if the hidden is dead
     function NS2Gamerules:CheckIfHiddenIsDead()
         return self:CheckIfAllDead(self.team2)

@@ -6,7 +6,7 @@
 //
 // ======================================================
 
-kHiddenModVersion = "0.2-development"
+kHiddenModVersion = "0.2-alpha"
 kHiddenModTimeTillNewRound = 6
 kHiddenModPregameLength = 6
 kHiddenModRoundTimerInSecs = 300
