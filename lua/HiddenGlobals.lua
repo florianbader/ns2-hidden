@@ -6,9 +6,9 @@
 //
 // ======================================================
 
-kHiddenModVersion = "0.2-alpha"
+kHiddenModVersion = "0.3-alpha"
 kHiddenModTimeTillNewRound = 6
 kHiddenModPregameLength = 6
-kHiddenModRoundTimerInSecs = 300
 kHiddenModMaxCloakedFraction = 0.97
+kHiddenModTimeTillMapChange = 10
 kHiddenModTwoPlayerToStartMessage = 30

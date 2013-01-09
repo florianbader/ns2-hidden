@@ -75,7 +75,7 @@ Fade.kWallGripSmoothTime = 0.6
 Fade.kWallGripRange = 0.2
 Fade.kWallGripFeelerSize = 0.25
 
-kWallGripEnergyCost = 20
+kWallGripEnergyCost = 10
 
 local onCreate = Fade.OnCreate
 function Fade:OnCreate()       

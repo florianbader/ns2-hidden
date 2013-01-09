@@ -101,11 +101,6 @@ if (Server) then
     end
 
     local function OnCommandHiddenMe(_, playerName)
-        if (not playerName) then
-            Shared.Message("hiddenme <playername>")
-            return    
-        end    
-
         if (not HiddenMod.nextHidden) then
             HiddenMod.nextHidden = playerName
         else

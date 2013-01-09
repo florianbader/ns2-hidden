@@ -38,14 +38,14 @@ end
 function HiddenRoundTimer:GetIsRoundTimeOver()
     if (self:GetGameStartTime() < 0) then return false end
     return (Shared.GetTime() - self:GetGameStartTime() >= kHiddenModRoundTimerInSecs)
-end
-    
+end   
+
 if (Server) then
     local locale = LibCache:GetLibrary("LibLocales-1.0")
 
     HiddenRoundTimer.AnnounceTimeAt = { 300, 240, 180, 120, 60, 30, 15, 5, 4, 3, 2, 1 }
     HiddenRoundTimer.AnnouncedTimeAlready = {}
-
+    
     function HiddenRoundTimer:UpdateRoundTimer()
         for _, time in pairs(HiddenRoundTimer.AnnounceTimeAt) do
             if (not HiddenRoundTimer.AnnouncedTimeAlready[time] and floor(kHiddenModRoundTimerInSecs - HiddenRoundTimer:GetRoundTime()) == time) then

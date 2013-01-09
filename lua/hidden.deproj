@@ -10,27 +10,75 @@
     <filename>HiddenCloak.lua</filename>
   </file>
   <file>
+    <filename>HiddenConsoleCommands.lua</filename>
+  </file>
+  <file>
+    <filename>HiddenFade.lua</filename>
+  </file>
+  <file>
+    <filename>HiddenFade_Server.lua</filename>
+  </file>
+  <file>
+    <filename>HiddenGUIMarineEquipmentMenu.lua</filename>
+  </file>
+  <file>
+    <filename>HiddenGUIRoundTimer.lua</filename>
+  </file>
+  <file>
     <filename>HiddenGamerules.lua</filename>
   </file>
   <file>
     <filename>HiddenGlobals.lua</filename>
   </file>
   <file>
+    <filename>HiddenMarineSelectEquipment.lua</filename>
+  </file>
+  <file>
+    <filename>HiddenNetworkMessages_Server.lua</filename>
+  </file>
+  <file>
+    <filename>HiddenParasite.lua</filename>
+  </file>
+  <file>
+    <filename>HiddenPistol.lua</filename>
+  </file>
+  <file>
     <filename>HiddenPredict.lua</filename>
+  </file>
+  <file>
+    <filename>HiddenRoundTimer.lua</filename>
   </file>
   <file>
     <filename>HiddenServer.lua</filename>
   </file>
   <file>
+    <filename>HiddenServerConfig.lua</filename>
+  </file>
+  <file>
     <filename>HiddenShared.lua</filename>
   </file>
   <file>
+    <filename>HiddenSounds.lua</filename>
+  </file>
+  <file>
+    <filename>HiddenStab.lua</filename>
+  </file>
+  <file>
+    <filename>HiddenSwipeLeap.lua</filename>
+  </file>
+  <file>
     <filename>HiddenTeam.lua</filename>
+  </file>
+  <file>
+    <filename>HiddenTeamAttack.lua</filename>
   </file>
   <file>
     <filename>HiddenTest.lua</filename>
   </file>
   <file>
     <filename>HiddenUpgradableMixin.lua</filename>
+  </file>
+  <file>
+    <filename>HiddenWeapon.lua</filename>
   </file>
 </project>

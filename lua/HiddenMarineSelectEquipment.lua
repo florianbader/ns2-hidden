@@ -6,13 +6,32 @@
 //
 // ======================================================
 
+local marineHandleButtons = Marine.HandleButtons
+function Marine:HandleButtons(input)
+    marineHandleButtons(self, input)
+    
+    //if Client and not Shared.GetIsRunningPrediction() then
+    
+        self.buyLastFrame = self.buyLastFrame or false
+        // Player is bringing up the buy menu (don't toggle it too quickly)
+        local buyButtonPressed = bit.band(input.commands, Move.Buy) ~= 0
+        if not self.buyLastFrame and buyButtonPressed and Shared.GetTime() > (self.timeLastMenu + 0.3) then        
+            self:Buy()
+            self.timeLastMenu = Shared.GetTime()            
+        end
+        
+        self.buyLastFrame = buyButtonPressed
+        
+    //end
+end
+
 function Marine:Buy()    
     // Don't allow display in the ready room
     if (self:GetTeamNumber() ~= 0 and Client.GetLocalPlayer() == self) then 
-        if (not self.hiddenEquipmentMenu) then        
+        if (not self.hiddenEquipmentMenu) then         
             self.hiddenEquipmentMenu = GetGUIManager():CreateGUIScript("HiddenGUIMarineEquipmentMenu")        
             MouseTracker_SetIsVisible(true, "ui/Cursor_MenuDefault.dds", true)
-        else
+        else            
             self:CloseMenu()
         end           
     end    
@@ -28,6 +47,14 @@ function Marine:CloseMenu()
     end
     
     return false
+end
+
+function JetpackMarine:Buy()
+    Marine.Buy(self)
+end
+
+function JetpackMarine:CloseMenu()
+    Marine.CloseMenu(self)
 end
 
 if (Client) then

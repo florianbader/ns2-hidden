@@ -17,6 +17,7 @@ Script.Load("lua/libs/LibLocales-1.0/LibLocales.lua")
 Script.Load("lua/libs/LibMessages-1.0/LibMessages.lua")
 
 // Load hidden mod server scripts
+Script.Load("lua/HiddenServerConfig.lua")
 Script.Load("lua/HiddenShared.lua")
 Script.Load("lua/HiddenUpgradableMixin.lua")
 Script.Load("lua/HiddenTeam.lua")
@@ -25,6 +26,7 @@ Script.Load("lua/HiddenSounds.lua")
 Script.Load("lua/HiddenConsoleCommands.lua")
 Script.Load("lua/HiddenNetworkMessages_Server.lua")
 Script.Load("lua/HiddenWeapon.lua")
+Script.Load("lua/HiddenTeamAttack.lua")
 Script.Load("lua/HiddenGamerules.lua")
 
 // Only include the Test script in the development version

@@ -6,6 +6,8 @@
 //
 // ======================================================
 
+local locale = LibCache:GetLibrary("LibLocales-1.0")
+
 class 'HiddenMod'
 
 kAlienMinInnateRegeneration = 0
@@ -14,6 +16,9 @@ kAlienMaxInnateRegeneration = 0
 function HiddenMod:SpawnAsFade()
     local alienTeam = GetGamerules():GetTeam2()
     if (alienTeam:GetNumPlayers() == 0) then return end
+    
+    local marineTeam = GetGamerules():GetTeam1()
+    local marineTeamPlayerCount = marineTeam:GetNumPlayers()
     
     for _, alienPlayerId in pairs(alienTeam.playerIds) do
         player = Shared.GetEntity(alienPlayerId)
@@ -26,14 +31,23 @@ function HiddenMod:SpawnAsFade()
         newPlayer:GiveUpgrade(kTechId.Camouflage)
         newPlayer:GiveUpgrade(kTechId.Adrenaline)
         newPlayer:GiveUpgrade(kTechId.Celerity)
-                        
-        local healthScalar = player:GetHealth() / player:GetMaxHealth()
-        local armorScalar = player:GetMaxArmor() == 0 and 1 or player:GetArmor() / player:GetMaxArmor()
-
-        newPlayer:SetHealth(healthScalar * LookupTechData(kTechId.Fade, kTechDataMaxHealth))
-        newPlayer:SetArmor(armorScalar * LookupTechData(kTechId.Fade, kTechDataMaxArmor))
-        newPlayer:UpdateArmorAmount()       
-                                
-        self.hiddenPlayer = newPlayer
+        
+        local playerCountHandicap = marineTeamPlayerCount > 8 and marineTeamPlayerCount / 8 or 1
+        
+        newPlayer:SetMaxHealth(playerCountHandicap * LookupTechData(kTechId.Fade, kTechDataMaxHealth))
+        newPlayer:SetHealth(playerCountHandicap * LookupTechData(kTechId.Fade, kTechDataMaxHealth))
+        newPlayer:SetMaxArmor(playerCountHandicap * LookupTechData(kTechId.Fade, kTechDataMaxArmor))
+        newPlayer:SetArmor(playerCountHandicap * LookupTechData(kTechId.Fade, kTechDataMaxArmor))
     end 
+end
+
+local playerOnKill = Player.OnKill
+function Player:OnKill(attacker, doer, point, direction)
+    playerOnKill(self, attacker, doer, point, direction)
+    
+    // The player who killed the Hidden has a higher chance to be the Hidden next round
+    if (self:GetTeamNumber() == 2 and attacker and attacker:isa("Marine")) then
+        hiddenNextPlayer = attacker:GetName()
+        attacker:HiddenMessage(locale:ResolveString("HIDDEN_SELECTION_MARINE"))
+    end    
 end

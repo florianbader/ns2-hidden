@@ -11,6 +11,7 @@ Script.Load("lua/Client.lua")
 
 // Load hidden mod client scripts
 Script.Load("lua/HiddenShared.lua")
+Script.Load("lua/HiddenMarineSelectEquipment.lua")
 
 // Only include the Test script in the development version
 if (kHiddenModVersion:lower():find("development")) then

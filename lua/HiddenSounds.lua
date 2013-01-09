@@ -23,3 +23,8 @@ function MarineTeam:Update(timePassed)
     // Update distress beacon mask
     self:UpdateGameMasks(timePassed)
 end
+
+// Remove "Soldier is under attack" sound
+function Marine:GetDamagedAlertId()
+    return nil
+end

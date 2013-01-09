@@ -1,5 +1,5 @@
 <game>
-	<name>ns2</name>
+	<name>hidden</name>
 	<description>Natural Selection 2: Hidden</description>
 	<client>lua/HiddenClient.lua</client>
 	<server>lua/HiddenServer.lua</server>
