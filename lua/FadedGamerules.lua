@@ -1,30 +1,30 @@
-// ===================== Hidden Mod =====================
+// ===================== Faded Mod =====================
 //
-// lua\HiddenGamerules.lua
+// lua\FadedGamerules.lua
 //
 //    Created by: Rio (rio@myrio.de)
 //
-// ======================================================
+// =====================================================
 
 local locale = LibCache:GetLibrary("LibLocales-1.0")
 local strformat = string.format
 local floor = math.floor
 local random = math.random
 
-hiddenNextPlayer = nil
-hiddenPlayer = nil
+fadedNextPlayer = nil
+fadedPlayer = nil
 
-local hiddenPregameTenSecMessage = false
-local hiddenPregameFiveSecMessage = false
-local hiddenModLastTimeTwoPlayersToStartMessage = nil
+local fadedPregameTenSecMessage = false
+local fadedPregameFiveSecMessage = false
+local fadedModLastTimeTwoPlayersToStartMessage = nil
 
-local hiddenMapTime = 0
+local fadedMapTime = 0
 
 local cycle = MapCycle_GetMapCycle()
 
 if (Server) then  
-    // Checks if the hidden is dead
-    function NS2Gamerules:CheckIfHiddenIsDead()
+    // Checks if the faded is dead
+    function NS2Gamerules:CheckIfFadedIsDead()
         return self:CheckIfAllDead(self.team2)
     end
     
@@ -56,16 +56,16 @@ if (Server) then
     local joinTeam = NS2Gamerules.JoinTeam    
     function NS2Gamerules:JoinTeam(player, newTeamNumber, force)
         if (newTeamNumber == 2 and not force) then
-            player:HiddenMessage(locale:ResolveString("JOIN_ERROR_TOO_MANY"))
+            player:FadedMessage(locale:ResolveString("JOIN_ERROR_TOO_MANY"))
             return false, player
         end
 
         return joinTeam(self, player, newTeamNumber, force) 
     end
         
-    // Allow friendly fire to help the Hidden a bit
-    function NS2Gamerules:GetFriendlyFire() return kHiddenModFriendlyFireEnabled end
-    function GetFriendlyFire() return kHiddenModFriendlyFireEnabled end
+    // Allow friendly fire to help the Faded a bit
+    function NS2Gamerules:GetFriendlyFire() return kFadedModFriendlyFireEnabled end
+    function GetFriendlyFire() return kFadedModFriendlyFireEnabled end
     
     // Define the game ending rules
     function NS2Gamerules:CheckGameEnd()    
@@ -75,28 +75,28 @@ if (Server) then
                 local team2Players = self.team2:GetNumPlayers()
                 
                 if (team1Players == 0) then
-                    Shared:HiddenMessage(locale:ResolveString("HIDDEN_NO_MARINES_LEFT"))
+                    Shared:FadedMessage(locale:ResolveString("HIDDEN_NO_MARINES_LEFT"))
                     self:EndGame(self.team2)
                 elseif (team2Players == 0) then
-                    Shared:HiddenMessage(locale:ResolveString("HIDDEN_NO_HIDDEN_LEFT"))
+                    Shared:FadedMessage(locale:ResolveString("HIDDEN_NO_HIDDEN_LEFT"))
                     self:EndGame(self.team1)    
-                elseif (self:CheckIfHiddenIsDead() == true) then
-                    Shared:HiddenMessage(locale:ResolveString("HIDDEN_MARINES_VICTORY"))
+                elseif (self:CheckIfFadedIsDead() == true) then
+                    Shared:FadedMessage(locale:ResolveString("HIDDEN_MARINES_VICTORY"))
                     self:EndGame(self.team1)
                 elseif (self:CheckIfMarinesAreDead() == true) then                
-                    Shared:HiddenMessage(locale:ResolveString("HIDDEN_VICTORY"))
+                    Shared:FadedMessage(locale:ResolveString("HIDDEN_VICTORY"))
                     self:EndGame(self.team2)
                     
-                    // If the Hidden wins, the player has a higher chance to be the Hidden next round
-                    if (hiddenPlayer) then
-                        local player = Shared:GetPlayerByName(hiddenPlayer)
+                    // If the Faded wins, the player has a higher chance to be the Faded next round
+                    if (fadedPlayer) then
+                        local player = Shared:GetPlayerByName(fadedPlayer)
                         if (player) then
-                            hiddenNextPlayer = player:GetName()
-                            player:HiddenMessage(locale:ResolveString("HIDDEN_SELECTION_ALIEN"))
+                            fadedNextPlayer = player:GetName()
+                            player:FadedMessage(locale:ResolveString("HIDDEN_SELECTION_ALIEN"))
                         end
                     end    
-                elseif (HiddenRoundTimer:GetIsRoundTimeOver()) then       
-                    Shared:HiddenMessage(locale:ResolveString("HIDDEN_ROUND_TIME_OVER"))
+                elseif (FadedRoundTimer:GetIsRoundTimeOver()) then       
+                    Shared:FadedMessage(locale:ResolveString("HIDDEN_ROUND_TIME_OVER"))
                     self:EndGame(self.team1)
                 end  
 
@@ -111,9 +111,9 @@ if (Server) then
             local team1Players = self.team1:GetNumPlayers()
             local team2Players = self.team2:GetNumPlayers()
             
-            if (team1Players == 1 and Shared.GetTime() - (hiddenModLastTimeTwoPlayersToStartMessage or 0) > kHiddenModTwoPlayerToStartMessage) then
-                Shared:HiddenMessage(locale:ResolveString("HIDDEN_GAME_NEEDS_TWO_PLAYERS"))
-                hiddenModLastTimeTwoPlayersToStartMessage = Shared.GetTime()
+            if (team1Players == 1 and Shared.GetTime() - (fadedModLastTimeTwoPlayersToStartMessage or 0) > kFadedModTwoPlayerToStartMessage) then
+                Shared:FadedMessage(locale:ResolveString("HIDDEN_GAME_NEEDS_TWO_PLAYERS"))
+                fadedModLastTimeTwoPlayersToStartMessage = Shared.GetTime()
             elseif (team1Players > 1 or (team1Players > 0 and team2Players > 0)) then
                 self:SetGameState(kGameState.PreGame)
             elseif self:GetGameState() == kGameState.PreGame then
@@ -127,7 +127,7 @@ if (Server) then
         // Disable auto team balance
         Server.SetConfigSetting("auto_team_balance", nil)
     
-        // Switch the hidden to the marine team   
+        // Switch the faded to the marine team   
         if (self.team2:GetNumPlayers() > 0) then        
             for i, playerId in ipairs(self.team2.playerIds) do
                 local alienPlayer = Shared.GetEntity(playerId)                    
@@ -136,18 +136,18 @@ if (Server) then
         end  
                  
         // Reset the mod
-        HiddenRoundTimer:Reset()
+        FadedRoundTimer:Reset()
         
         // Reset the game
         resetGame(self)
         
-        // Choose a random player as Hidden
+        // Choose a random player as Faded
         local player
-        if (not HiddenMod.nextHidden) then
-            if (hiddenNextPlayer) then
+        if (not FadedMod.nextFaded) then
+            if (fadedNextPlayer) then
                 local randomNumber = random()
-                if (randomNumber < kHiddenModHiddenSelectionChance) then
-                    player = Shared:GetPlayerByName(hiddenNextPlayer)
+                if (randomNumber < kFadedModFadedSelectionChance) then
+                    player = Shared:GetPlayerByName(fadedNextPlayer)
                 end    
             end
             
@@ -156,33 +156,33 @@ if (Server) then
             end    
         else
             // Some cheating for the dev mode
-            player = Shared:GetPlayerByName(HiddenMod.nextHidden)
+            player = Shared:GetPlayerByName(FadedMod.nextFaded)
             if (not player) then 
                 player = Shared:GetRandomPlayer(self.team1.playerIds)
             end    
         end    
         
         if (player) then    
-            hiddenPlayer = player:GetName()
+            fadedPlayer = player:GetName()
          
-            // Switch the Hidden to the alien team and give him some upgrades!
+            // Switch the Faded to the alien team and give him some upgrades!
             self:JoinTeam(player, 2, true)
-            HiddenMod:SpawnAsFade()
+            FadedMod:SpawnAsFade()
             
             // Some info messages
-            self:GetTeam1():HiddenMessage(strformat(locale:ResolveString("HIDDEN_PLAYER_IS_NOW_THE_HIDDEN"), player:GetName()))
-            self:GetTeam1():HiddenMessage(locale:ResolveString("HIDDEN_MARINE_GAME_STARTED_1"))
-            if (kHiddenModFriendlyFireEnabled) then
-                self:GetTeam1():HiddenMessage(locale:ResolveString("HIDDEN_MARINE_GAME_STARTED_2"))
+            self:GetTeam1():FadedMessage(strformat(locale:ResolveString("HIDDEN_PLAYER_IS_NOW_THE_HIDDEN"), player:GetName()))
+            self:GetTeam1():FadedMessage(locale:ResolveString("HIDDEN_MARINE_GAME_STARTED_1"))
+            if (kFadedModFriendlyFireEnabled) then
+                self:GetTeam1():FadedMessage(locale:ResolveString("HIDDEN_MARINE_GAME_STARTED_2"))
             end    
             
-            self:GetTeam2():HiddenMessage(strformat(locale:ResolveString("HIDDEN_YOU_ARE_NOW_THE_HIDDEN"), player:GetName()))
-            self:GetTeam2():HiddenMessage(locale:ResolveString("HIDDEN_GAME_STARTED"))     
+            self:GetTeam2():FadedMessage(strformat(locale:ResolveString("HIDDEN_YOU_ARE_NOW_THE_HIDDEN"), player:GetName()))
+            self:GetTeam2():FadedMessage(locale:ResolveString("HIDDEN_GAME_STARTED"))     
        
-            if (kHiddenModVersion:lower():find("development")) then
-                Shared:HiddenMessage("Warning! This is a development version! It's for testing purpose only!")
-            elseif (kHiddenModVersion:lower():find("alpha")) then
-                Shared:HiddenMessage("Warning! This is an alpha version, which means it's not finished yet!")
+            if (kFadedModVersion:lower():find("development")) then
+                Shared:FadedMessage("Warning! This is a development version! It's for testing purpose only!")
+            elseif (kFadedModVersion:lower():find("alpha")) then
+                Shared:FadedMessage("Warning! This is an alpha version, which means it's not finished yet!")
             end
         end  
         
@@ -200,11 +200,11 @@ if (Server) then
         local state = self:GetGameState()
         if (state == kGameState.Team1Won or state == kGameState.Team2Won or state == kGameState.Draw) then   
             // Check if we need to change the map            
-            if (hiddenMapTime >= (cycle.time * 60)) then
-                self.timeToCycleMap = Shared.GetTime() + kHiddenModTimeTillMapChange
-                hiddenMapTime = 0
+            if (fadedMapTime >= (cycle.time * 60)) then
+                self.timeToCycleMap = Shared.GetTime() + kFadedModTimeTillMapChange
+                fadedMapTime = 0
             else         
-                if (self.timeSinceGameStateChanged >= kHiddenModTimeTillNewRound) then                                
+                if (self.timeSinceGameStateChanged >= kFadedModTimeTillNewRound) then                                
                     // Reset the game
                     self:ResetGame()            
                     
@@ -232,19 +232,19 @@ if (Server) then
     local updatePregame = NS2Gamerules.UpdatePregame
     function NS2Gamerules:UpdatePregame(timePassed)
         if (self:GetGameState() == kGameState.PreGame) then        
-            local preGameTime = kHiddenModPregameLength  
+            local preGameTime = kFadedModPregameLength  
                         
             if (self.timeSinceGameStateChanged > preGameTime) then
-                hiddenPregameTenSecMessage = false
-                hiddenPregameFiveSecMessage = false
+                fadedPregameTenSecMessage = false
+                fadedPregameFiveSecMessage = false
             else
-                if (hiddenPregameFiveSecMessage == false and floor(preGameTime - self.timeSinceGameStateChanged) == 5) then
-                    Shared:HiddenMessage(strformat(locale:ResolveString("HIDDEN_GAME_STARTS_IN"), 5)) 
-                    hiddenPregameFiveSecMessage = true
-                    hiddenPregameTenSecMessage = true
-                elseif (hiddenPregameTenSecMessage == false and floor(preGameTime - self.timeSinceGameStateChanged) == 10) then
-                    Shared:HiddenMessage(strformat(locale:ResolveString("HIDDEN_GAME_STARTS_IN"), 10))
-                    hiddenPregameTenSecMessage = true
+                if (fadedPregameFiveSecMessage == false and floor(preGameTime - self.timeSinceGameStateChanged) == 5) then
+                    Shared:FadedMessage(strformat(locale:ResolveString("HIDDEN_GAME_STARTS_IN"), 5)) 
+                    fadedPregameFiveSecMessage = true
+                    fadedPregameTenSecMessage = true
+                elseif (fadedPregameTenSecMessage == false and floor(preGameTime - self.timeSinceGameStateChanged) == 10) then
+                    Shared:FadedMessage(strformat(locale:ResolveString("HIDDEN_GAME_STARTS_IN"), 10))
+                    fadedPregameTenSecMessage = true
                 end        
             end
         end    
@@ -260,12 +260,12 @@ if (Server) then
                 // Update the mod
                 if (self:GetGameState() == kGameState.Started) then
                     // no longer needed, as we have the GUI timer now
-                    //HiddenRoundTimer:UpdateRoundTimer()
+                    //FadedRoundTimer:UpdateRoundTimer()
                 end    
             end    
         end
         
-        hiddenMapTime = hiddenMapTime + timePassed
+        fadedMapTime = fadedMapTime + timePassed
         
         // Call the NS2Gamerules update function
         onUpdate(self, timePassed)
@@ -282,12 +282,12 @@ if (Server) then
         
         local player = client:GetControllingPlayer()
         
-        player:HiddenMessage(locale:ResolveString("HIDDEN_WELCOME_MESSAGE_1"))
-        player:HiddenMessage(locale:ResolveString("HIDDEN_WELCOME_MESSAGE_2"))
-        player:HiddenMessage(locale:ResolveString("HIDDEN_WELCOME_MESSAGE_3"))
-        player:HiddenMessage(locale:ResolveString("HIDDEN_WELCOME_MESSAGE_4"))
+        player:FadedMessage(locale:ResolveString("HIDDEN_WELCOME_MESSAGE_1"))
+        player:FadedMessage(locale:ResolveString("HIDDEN_WELCOME_MESSAGE_2"))
+        player:FadedMessage(locale:ResolveString("HIDDEN_WELCOME_MESSAGE_3"))
+        player:FadedMessage(locale:ResolveString("HIDDEN_WELCOME_MESSAGE_4"))
         
-        Server.SendNetworkMessage(player, "RoundTime", { time = kHiddenModRoundTimerInSecs }, true)
+        Server.SendNetworkMessage(player, "RoundTime", { time = kFadedModRoundTimerInSecs }, true)
     end
     
     // Dont't let people spawn if they go to the ready room and back in game just after the game started

@@ -1,31 +1,31 @@
-// ===================== Hidden Mod =====================
+// ===================== Faded Mod =====================
 //
-// lua\HiddenGUIRoundTimer.lua
+// lua\FadedGUIRoundTimer.lua
 //
 //    Created by: Rio (rio@myrio.de)
 //
-// ======================================================
+// =====================================================
 
 local strformat = string.format
 
-class 'HiddenGUIRoundTimer' (GUIScript)
+class 'FadedGUIRoundTimer' (GUIScript)
 
-HiddenGUIRoundTimer.kGameTimeBackgroundSize = Vector(200, GUIScale(32), 0)
-HiddenGUIRoundTimer.kFontName = "Calibri"
-HiddenGUIRoundTimer.kGameTimeTextSize = GUIScale(22)
+FadedGUIRoundTimer.kGameTimeBackgroundSize = Vector(200, GUIScale(32), 0)
+FadedGUIRoundTimer.kFontName = "Calibri"
+FadedGUIRoundTimer.kGameTimeTextSize = GUIScale(22)
 
-function HiddenGUIRoundTimer:Initialize()
+function FadedGUIRoundTimer:Initialize()
     self.gameTimeBackground = GUIManager:CreateGraphicItem()
-    self.gameTimeBackground:SetSize(HiddenGUIRoundTimer.kGameTimeBackgroundSize)
+    self.gameTimeBackground:SetSize(FadedGUIRoundTimer.kGameTimeBackgroundSize)
     self.gameTimeBackground:SetAnchor(GUIItem.Middle, GUIItem.Top)
-    self.gameTimeBackground:SetPosition( Vector(- HiddenGUIRoundTimer.kGameTimeBackgroundSize.x / 2, 0, 0) )
+    self.gameTimeBackground:SetPosition( Vector(- FadedGUIRoundTimer.kGameTimeBackgroundSize.x / 2, 0, 0) )
     self.gameTimeBackground:SetIsVisible(false)
     self.gameTimeBackground:SetColor(Color(0,0,0,0.5))
     self.gameTimeBackground:SetLayer(kGUILayerCountDown)
     
     self.gameTime = GUIManager:CreateTextItem()
-    self.gameTime:SetFontName(HiddenGUIRoundTimer.kFontName)
-    self.gameTime:SetFontSize(HiddenGUIRoundTimer.kGameTimeTextSize)
+    self.gameTime:SetFontName(FadedGUIRoundTimer.kFontName)
+    self.gameTime:SetFontSize(FadedGUIRoundTimer.kGameTimeTextSize)
     self.gameTime:SetAnchor(GUIItem.Middle, GUIItem.Center)
     self.gameTime:SetTextAlignmentX(GUIItem.Align_Center)
     self.gameTime:SetTextAlignmentY(GUIItem.Align_Center)
@@ -34,15 +34,15 @@ function HiddenGUIRoundTimer:Initialize()
     self.gameTimeBackground:AddChild(self.gameTime)
 end    
 
-function HiddenGUIRoundTimer:Uninitialize()
+function FadedGUIRoundTimer:Uninitialize()
     GUI.DestroyItem(self.gameTime)
     self.gameTime = nil
     GUI.DestroyItem(self.gameTimeBackground)
     self.gameTimeBackground = nil
 end
 
-function HiddenGUIRoundTimer:Update(deltaTime)    
-    local gameTime = HiddenRoundTimer:GetRoundTimeLeft()
+function FadedGUIRoundTimer:Update(deltaTime)    
+    local gameTime = FadedRoundTimer:GetRoundTimeLeft()
     local isVisible = gameTime and gameTime >= 0   
         
     self.gameTimeBackground:SetIsVisible(isVisible)

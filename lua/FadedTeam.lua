@@ -1,10 +1,10 @@
-// ===================== Hidden Mod =====================
+// ===================== Faded Mod =====================
 //
-// lua\HiddenTeam.lua
+// lua\FadedTeam.lua
 //
 //    Created by: Rio (rio@myrio.de)
 //
-// ======================================================
+// =====================================================
 
 // Remove the respawn queue
 //function Team:PutPlayerInRespawnQueue(player) end

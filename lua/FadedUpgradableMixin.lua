@@ -1,10 +1,10 @@
-// ===================== Hidden Mod =====================
+// ===================== Faded Mod =====================
 //
-// lua\HiddenUpgradableMixin.lua
+// lua\FadedUpgradableMixin.lua
 //
 //    Created by: Rio (rio@myrio.de)
 //
-// ======================================================
+// =====================================================
 
 UpgradableMixin.networkVars =
 {

@@ -1,10 +1,10 @@
-// ===================== Hidden Mod =====================
+// ===================== Faded Mod =====================
 //
-// lua\HiddenSwipeBlink.lua
+// lua\FadedSwipeBlink.lua
 //
 //    Created by: Rio (rio@myrio.de)
 //
-// ======================================================
+// =====================================================
 
 Script.Load("lua/Balance.lua")
 Script.Load("lua/Weapons/Alien/Ability.lua")

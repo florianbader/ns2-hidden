@@ -1,19 +1,19 @@
-// ===================== Hidden Mod =====================
+// ===================== Faded Mod =====================
 //
-// lua\HiddenAlien.lua
+// lua\FadedAlien.lua
 //
 //    Created by: Rio (rio@myrio.de)
 //
-// ======================================================
+// =====================================================
 
 local locale = LibCache:GetLibrary("LibLocales-1.0")
 
-class 'HiddenMod'
+class 'FadedMod'
 
 kAlienMinInnateRegeneration = 0
 kAlienMaxInnateRegeneration = 0
 
-function HiddenMod:SpawnAsFade()
+function FadedMod:SpawnAsFade()
     local alienTeam = GetGamerules():GetTeam2()
     if (alienTeam:GetNumPlayers() == 0) then return end
     
@@ -45,9 +45,9 @@ local playerOnKill = Player.OnKill
 function Player:OnKill(attacker, doer, point, direction)
     playerOnKill(self, attacker, doer, point, direction)
     
-    // The player who killed the Hidden has a higher chance to be the Hidden next round
+    // The player who killed the Faded has a higher chance to be the Faded next round
     if (self:GetTeamNumber() == 2 and attacker and attacker:isa("Marine")) then
-        hiddenNextPlayer = attacker:GetName()
-        attacker:HiddenMessage(locale:ResolveString("HIDDEN_SELECTION_MARINE"))
+        fadedNextPlayer = attacker:GetName()
+        attacker:FadedMessage(locale:ResolveString("HIDDEN_SELECTION_MARINE"))
     end    
 end

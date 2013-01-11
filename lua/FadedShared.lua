@@ -1,19 +1,19 @@
-// ===================== Hidden Mod =====================
+// ===================== Faded Mod =====================
 //
-// lua\HiddenShared.lua
+// lua\FadedShared.lua
 //
 //    Created by: rio (rio@myrio.de)
 //
-// ======================================================
+// =====================================================
 
 Script.Load("lua/MarineTeam.lua")
 Script.Load("lua/AlienTeam.lua")
 
-Script.Load("lua/HiddenGlobals.lua")
-Script.Load("lua/HiddenCloak.lua")
-Script.Load("lua/HiddenRoundTimer.lua")
-Script.Load("lua/HiddenParasite.lua")
-Script.Load("lua/HiddenFade.lua")
+Script.Load("lua/FadedGlobals.lua")
+Script.Load("lua/FadedCloak.lua")
+Script.Load("lua/FadedRoundTimer.lua")
+Script.Load("lua/FadedParasite.lua")
+Script.Load("lua/FadedFade.lua")
 
 local kSelectEquipmentMessage =
 {
@@ -44,22 +44,22 @@ if (Server) then
         return randomPlayer
     end
 
-    function Shared:HiddenMessage(chatMessage)
-        Server.SendNetworkMessage("Chat", BuildChatMessage(false, "Hidden Mod", -1, kTeamReadyRoom, kNeutralTeamType, chatMessage), true)
-        Shared.Message("Chat All - Hidden Mod: " .. chatMessage)
-        Server.AddChatToHistory(chatMessage, "Hidden Mod", 0, kTeamReadyRoom, false)
+    function Shared:FadedMessage(chatMessage)
+        Server.SendNetworkMessage("Chat", BuildChatMessage(false, "Faded Mod", -1, kTeamReadyRoom, kNeutralTeamType, chatMessage), true)
+        Shared.Message("Chat All - Faded Mod: " .. chatMessage)
+        Server.AddChatToHistory(chatMessage, "Faded Mod", 0, kTeamReadyRoom, false)
     end
 
-    function Player:HiddenMessage(chatMessage)
-        self:SendMessage("Hidden Mod", chatMessage)
+    function Player:FadedMessage(chatMessage)
+        self:SendMessage("Faded Mod", chatMessage)
     end
 
-    function MarineTeam:HiddenMessage(chatMessage)
-        self:SendMessage("Hidden Mod", chatMessage)
+    function MarineTeam:FadedMessage(chatMessage)
+        self:SendMessage("Faded Mod", chatMessage)
     end
 
-    function AlienTeam:HiddenMessage(chatMessage)
-        self:SendMessage("Hidden Mod", chatMessage)
+    function AlienTeam:FadedMessage(chatMessage)
+        self:SendMessage("Faded Mod", chatMessage)
     end
 
     function Shared:GetPlayerByName(playerName)
@@ -80,5 +80,5 @@ if (Server) then
         end   
     end
 elseif (Client) then
-    Client.HookNetworkMessage("RoundTime", function(data) kHiddenModRoundTimerInSecs = data.time end)
+    Client.HookNetworkMessage("RoundTime", function(data) kFadedModRoundTimerInSecs = data.time end)
 end

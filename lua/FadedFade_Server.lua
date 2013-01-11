@@ -1,10 +1,10 @@
-// ===================== Hidden Mod =====================
+// ===================== Faded Mod =====================
 //
-// lua\HiddenFade_Server.lua
+// lua\FadedFade_Server.lua
 //
 //    Created by: Rio (rio@myrio.de)
 //
-// ======================================================
+// =====================================================
 
 function Fade:InitWeapons()
     Alien.InitWeapons(self)

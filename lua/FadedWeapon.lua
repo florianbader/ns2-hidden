@@ -1,10 +1,10 @@
-// ===================== Hidden Mod =====================
+// ===================== Faded Mod =====================
 //
-// lua\HiddenWeapon.lua
+// lua\FadedWeapon.lua
 //
 //    Created by: rio (rio@myrio.de)
 //
-// ======================================================
+// =====================================================
 
 // We don't want to keep weapons on the floor
 local weaponDropped = Weapon.Dropped

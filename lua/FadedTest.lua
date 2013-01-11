@@ -1,10 +1,10 @@
-// ===================== Hidden Mod =====================
+// ===================== Faded Mod =====================
 //
-// lua\HiddenTest.lua
+// lua\FadedTest.lua
 //
 //    Created by: Rio (rio@myrio.de)
 //
-// ======================================================
+// =====================================================
 
 if (Server) then
     function OnConsoleAddBots(client, numBotsParam, forceTeam, className, passive)
@@ -26,14 +26,14 @@ if (Server) then
         end
     end
 
-    local function OnCommandHiddenLocation(player)
+    local function OnCommandFadedLocation(player)
         local alienTeam = GetGamerules():GetTeam2()
         if (alienTeam:GetNumPlayers() == 0) then return end
         
         local alienPlayerId = alienTeam.playerIds[1];
         local player = Shared.GetEntity(alienPlayerId)
      
-        Shared:HiddenMessage(player:GetLocationName())
+        Shared:FadedMessage(player:GetLocationName())
     end
 
     local function GetDestinationOrigin(origin, direction, player, phaseGate, extents)
@@ -65,9 +65,9 @@ if (Server) then
 
     end
 
-    local function OnCommandHiddenTeleport(_, player, toPlayer)  
+    local function OnCommandFadedTeleport(_, player, toPlayer)  
         if (not player or not toPlayer) then
-            Shared.Message("hiddenteleport <player> <to player>")
+            Shared.Message("fadedteleport <player> <to player>")
             return    
         end    
       
@@ -85,9 +85,9 @@ if (Server) then
         end    
     end
 
-    local function OnCommandHiddenThirdPerson(_, playerName)
+    local function OnCommandFadedThirdPerson(_, playerName)
         if (not playerName) then
-            Shared.Message("hiddenthirdperson <playername>")
+            Shared.Message("fadedthirdperson <playername>")
             return    
         end    
 
@@ -100,18 +100,18 @@ if (Server) then
         end
     end
 
-    local function OnCommandHiddenMe(_, playerName)
-        if (not HiddenMod.nextHidden) then
-            HiddenMod.nextHidden = playerName
+    local function OnCommandFadedMe(_, playerName)
+        if (not FadedMod.nextFaded) then
+            FadedMod.nextFaded = playerName
         else
-            HiddenMod.nextHidden = nil
+            FadedMod.nextFaded = nil
         end    
     end
 
     Event.Hook("Console_addbots", OnConsoleAddBots)
-    Event.Hook("Console_hiddenlocation", OnCommandHiddenLocation)
-    Event.Hook("Console_hiddenteleport", OnCommandHiddenTeleport)
-    Event.Hook("Console_hiddenthirdperson", OnCommandHiddenThirdPerson)
-    Event.Hook("Console_hiddenme", OnCommandHiddenMe)
+    Event.Hook("Console_fadedlocation", OnCommandFadedLocation)
+    Event.Hook("Console_fadedteleport", OnCommandFadedTeleport)
+    Event.Hook("Console_fadedthirdperson", OnCommandFadedThirdPerson)
+    Event.Hook("Console_fadedme", OnCommandFadedMe)
 elseif (Client) then    
 end    

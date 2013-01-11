@@ -1,10 +1,10 @@
-// ===================== Hidden Mod =====================
+// ===================== Faded Mod =====================
 //
-// lua\HiddenMarineSelectEquipment.lua
+// lua\FadedMarineSelectEquipment.lua
 //
 //    Created by: Rio (rio@myrio.de)
 //
-// ======================================================
+// =====================================================
 
 local marineHandleButtons = Marine.HandleButtons
 function Marine:HandleButtons(input)
@@ -28,8 +28,8 @@ end
 function Marine:Buy()    
     // Don't allow display in the ready room
     if (self:GetTeamNumber() ~= 0 and Client.GetLocalPlayer() == self) then 
-        if (not self.hiddenEquipmentMenu) then         
-            self.hiddenEquipmentMenu = GetGUIManager():CreateGUIScript("HiddenGUIMarineEquipmentMenu")        
+        if (not self.fadedEquipmentMenu) then         
+            self.fadedEquipmentMenu = GetGUIManager():CreateGUIScript("FadedGUIMarineEquipmentMenu")        
             MouseTracker_SetIsVisible(true, "ui/Cursor_MenuDefault.dds", true)
         else            
             self:CloseMenu()
@@ -38,9 +38,9 @@ function Marine:Buy()
 end
 
 function Marine:CloseMenu()
-    if (self.hiddenEquipmentMenu) then
-        GetGUIManager():DestroyGUIScript(self.hiddenEquipmentMenu)
-        self.hiddenEquipmentMenu = nil
+    if (self.fadedEquipmentMenu) then
+        GetGUIManager():DestroyGUIScript(self.fadedEquipmentMenu)
+        self.fadedEquipmentMenu = nil
         MouseTracker_SetIsVisible(false)
         
         return true

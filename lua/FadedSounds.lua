@@ -1,10 +1,10 @@
-// ===================== Hidden Mod =====================
+// ===================== Faded Mod =====================
 //
-// lua\HiddenSounds.lua
+// lua\FadedSounds.lua
 //
 //    Created by: Rio (rio@myrio.de)
 //
-// ======================================================
+// =====================================================
 
 // Supress a few messages like "you need a commander"
 local avoidMessageTypes = { kTeamMessageTypes.NoCommander, kTeamMessageTypes.SpawningWait, kTeamMessageTypes.Spawning }

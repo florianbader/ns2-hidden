@@ -1,16 +1,16 @@
-// ===================== Hidden Mod =====================
+// ===================== Faded Mod =====================
 //
-// lua\HiddenCloak.lua
+// lua\FadedCloak.lua
 //
 //    Created by: Rio (rio@myrio.de)
 //
-// ======================================================
+// =====================================================
 
 // Add three hives to the alien player
 function Alien:GetHasTwoHives() return true end
 function Alien:GetHasThreeHives() return true end
     
-// The Hidden is always invisible, even if he's in combat
+// The Faded is always invisible, even if he's in combat
 //function Alien:GetIsCamouflaged() return true end
 function CloakableMixin:TriggerUncloak() end
 //function CloakableMixin:GetCanCloak() return true end
@@ -28,7 +28,7 @@ if Client then
         local player = Client.GetLocalPlayer()
         
         local opacity = self:GetIsAlive() and 0 or 1
-        local cloakAmount = self:GetIsAlive() and 1-kHiddenModMaxCloakedFraction or 0            
+        local cloakAmount = self:GetIsAlive() and 1-kFadedModMaxCloakedFraction or 0            
           
         self:SetOpacity(opacity, "cloak")
         

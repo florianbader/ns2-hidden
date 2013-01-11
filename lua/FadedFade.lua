@@ -1,16 +1,16 @@
-// ===================== Hidden Mod =====================
+// ===================== Faded Mod =====================
 //
-// lua\HiddenFade.lua
+// lua\FadedFade.lua
 //
 //    Created by: Rio (rio@myrio.de)
 //
-// ======================================================
+// =====================================================
 
-Script.Load("lua/HiddenSwipeLeap.lua")
+Script.Load("lua/FadedSwipeLeap.lua")
 //Script.Load("lua/TechData.lua")
 
 if (Server) then
-    Script.Load("lua/HiddenFade_Server.lua")
+    Script.Load("lua/FadedFade_Server.lua")
 end
 /*
 local tinsert = table.insert

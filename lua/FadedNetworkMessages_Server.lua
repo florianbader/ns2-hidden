@@ -1,10 +1,10 @@
-// ===================== Hidden Mod =====================
+// ===================== Faded Mod =====================
 //
-// lua\HiddenNetworkMessages_Server.lua
+// lua\FadedNetworkMessages_Server.lua
 //
 //    Created by: Rio (rio@myrio.de)
 //
-// ======================================================
+// =====================================================
 
 Script.Load("lua/TechData.lua")
 

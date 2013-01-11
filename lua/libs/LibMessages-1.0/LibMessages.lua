@@ -4,7 +4,7 @@
 //
 //    Created by: Rio (rio@myrio.de)
 //
-// ======================================================
+// =====================================================
 
 local libMessagesMajor, libMessagesMinor = "LibMessages-1.0", 1
 local lib = LibCache:NewLibrary(libMessagesMajor, libMessagesMinor)
