@@ -6,9 +6,15 @@
 //
 // =====================================================
 
-kFadedModVersion = "0.3-alpha"
+kFadedModVersion = "0.4-alpha"
+
 kFadedModTimeTillNewRound = 6
 kFadedModPregameLength = 6
-kFadedModMaxCloakedFraction = 0.97
 kFadedModTimeTillMapChange = 10
+
+kFadedModMaxCloakedFraction = 0.98
+
 kFadedModTwoPlayerToStartMessage = 30
+
+kFadedModeMinesRestrictionCount = 2
+kFadedModeMinesRestrictionRange = 30

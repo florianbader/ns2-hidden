@@ -49,13 +49,13 @@ if (Server) then
     function FadedRoundTimer:UpdateRoundTimer()
         for _, time in pairs(FadedRoundTimer.AnnounceTimeAt) do
             if (not FadedRoundTimer.AnnouncedTimeAlready[time] and floor(kFadedModRoundTimerInSecs - FadedRoundTimer:GetRoundTime()) == time) then
-                Shared:FadedMessage(strformat(locale:ResolveString("HIDDEN_GAME_ENDS_IN"), time))
+                Shared:FadedMessage(strformat(locale:ResolveString("FADED_GAME_ENDS_IN"), time))
                 FadedRoundTimer.AnnouncedTimeAlready[time] = true
             end    
         end
         
         if (not FadedRoundTimer.AnnouncedTimeAlready["over"] and FadedRoundTimer:GetIsRoundTimeOver()) then        
-            Shared:FadedMessage(locale:ResolveString("HIDDEN_GAME_ENDS"))
+            Shared:FadedMessage(locale:ResolveString("FADED_GAME_ENDS"))
             FadedRoundTimer.AnnouncedTimeAlready["over"] = true
         end  
     end

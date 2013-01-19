@@ -99,7 +99,7 @@ function Fade:HandleButtons(input)
     Alien.HandleButtons(self, input)
     
     if not self:GetIsWallGripping()  then
-        if bit.band(input.commands, Move.Jump) ~= 0 then
+        if bit.band(input.commands, Move.MovementModifier) ~= 0 then
             
             if self.wallGripCheckEnabled then
         
@@ -129,7 +129,7 @@ function Fade:HandleButtons(input)
     else
         
         // we always abandon wall gripping if we blink or shadow step
-        local breakWallGrip = bit.band(input.commands, Move.MovementModifier) ~= 0 or bit.band(input.commands, Move.SecondaryAttack) ~= 0
+        local breakWallGrip = bit.band(input.commands, Move.Jump) ~= 0 or bit.band(input.commands, Move.SecondaryAttack) ~= 0
         
         // after sliding to a stop, pressing movment or crouch will drop the grip
         if not breakWallGrip and Shared.GetTime() - self.wallGripTime > Fade.kWallGripSlideTime then

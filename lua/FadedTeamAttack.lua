@@ -18,7 +18,7 @@ function Marine:OnTakeDamage(damage, attacker, doer, point)
                 local gameStartTime = FadedRoundTimer:GetGameStartTime()
                 
                 if (gameStartTime + kFadedModSpawnProtectionTime >= Shared.GetTime()) then
-                    attacker:FadedMessage(locale:ResolveString("HIDDEN_TEAM_ATTACK"))
+                    attacker:FadedMessage(locale:ResolveString("FADED_TEAM_ATTACK"))
                     attacker:Kill()
                 end
             end    

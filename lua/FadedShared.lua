@@ -14,6 +14,7 @@ Script.Load("lua/FadedCloak.lua")
 Script.Load("lua/FadedRoundTimer.lua")
 Script.Load("lua/FadedParasite.lua")
 Script.Load("lua/FadedFade.lua")
+Script.Load("lua/FadedMines.lua")
 
 local kSelectEquipmentMessage =
 {
@@ -31,6 +32,11 @@ function OnCommandOnResetGame()
 end
 
 function Scoreboard_OnResetGame()
+    if (Client) then Print("Reset") end
+    if (Server) then Shared:FadedMessage("Reset") end
+end
+
+function Scoreboard_Clear()
 end
     
 if (Server) then  

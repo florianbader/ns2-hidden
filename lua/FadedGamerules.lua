@@ -10,6 +10,7 @@ local locale = LibCache:GetLibrary("LibLocales-1.0")
 local strformat = string.format
 local floor = math.floor
 local random = math.random
+local tinsert = table.insert
 
 fadedNextPlayer = nil
 fadedPlayer = nil
@@ -47,7 +48,7 @@ if (Server) then
         return true    
     end
 
-    // Only allow players to join the marine team
+    // Only allow players to join the marine and random team
     function NS2Gamerules:GetCanJoinTeamNumber(teamNumber)
         return (teamNumber ~= 2)
     end
@@ -75,16 +76,16 @@ if (Server) then
                 local team2Players = self.team2:GetNumPlayers()
                 
                 if (team1Players == 0) then
-                    Shared:FadedMessage(locale:ResolveString("HIDDEN_NO_MARINES_LEFT"))
+                    Shared:FadedMessage(locale:ResolveString("FADED_NO_MARINES_LEFT"))
                     self:EndGame(self.team2)
                 elseif (team2Players == 0) then
-                    Shared:FadedMessage(locale:ResolveString("HIDDEN_NO_HIDDEN_LEFT"))
+                    Shared:FadedMessage(locale:ResolveString("FADED_NO_FADED_LEFT"))
                     self:EndGame(self.team1)    
                 elseif (self:CheckIfFadedIsDead() == true) then
-                    Shared:FadedMessage(locale:ResolveString("HIDDEN_MARINES_VICTORY"))
+                    Shared:FadedMessage(locale:ResolveString("FADED_MARINES_VICTORY"))
                     self:EndGame(self.team1)
                 elseif (self:CheckIfMarinesAreDead() == true) then                
-                    Shared:FadedMessage(locale:ResolveString("HIDDEN_VICTORY"))
+                    Shared:FadedMessage(locale:ResolveString("FADED_VICTORY"))
                     self:EndGame(self.team2)
                     
                     // If the Faded wins, the player has a higher chance to be the Faded next round
@@ -92,12 +93,12 @@ if (Server) then
                         local player = Shared:GetPlayerByName(fadedPlayer)
                         if (player) then
                             fadedNextPlayer = player:GetName()
-                            player:FadedMessage(locale:ResolveString("HIDDEN_SELECTION_ALIEN"))
+                            player:FadedMessage(locale:ResolveString("FADED_SELECTION_ALIEN"))
                         end
                     end    
                 elseif (FadedRoundTimer:GetIsRoundTimeOver()) then       
-                    Shared:FadedMessage(locale:ResolveString("HIDDEN_ROUND_TIME_OVER"))
-                    self:EndGame(self.team1)
+                    Shared:FadedMessage(locale:ResolveString("FADED_ROUND_TIME_OVER"))
+                    self:DrawGame()
                 end  
 
                 self.timeLastGameEndCheck = Shared.GetTime()
@@ -112,7 +113,7 @@ if (Server) then
             local team2Players = self.team2:GetNumPlayers()
             
             if (team1Players == 1 and Shared.GetTime() - (fadedModLastTimeTwoPlayersToStartMessage or 0) > kFadedModTwoPlayerToStartMessage) then
-                Shared:FadedMessage(locale:ResolveString("HIDDEN_GAME_NEEDS_TWO_PLAYERS"))
+                Shared:FadedMessage(locale:ResolveString("FADED_GAME_NEEDS_TWO_PLAYERS"))
                 fadedModLastTimeTwoPlayersToStartMessage = Shared.GetTime()
             elseif (team1Players > 1 or (team1Players > 0 and team2Players > 0)) then
                 self:SetGameState(kGameState.PreGame)
@@ -138,8 +139,41 @@ if (Server) then
         // Reset the mod
         FadedRoundTimer:Reset()
         
+        // Save player scores
+        local playerScores = {}
+        
+        local allPlayers = Shared.GetEntitiesWithClassname("Player")
+        for _, fromPlayer in ientitylist(allPlayers) do
+            local score = 0
+            if HasMixin(fromPlayer, "Scoring") then
+                score = fromPlayer:GetScore()
+            end    
+        
+            local playerScore = {
+                Score = score,
+                Kills = fromPlayer:GetKills(),
+                Deaths = fromPlayer:GetDeaths()
+            }      
+
+            local clientIndex = fromPlayer:GetClientIndex()
+            playerScores[clientIndex] = playerScore
+        end
+        
         // Reset the game
         resetGame(self)
+        
+        // Restore player scores
+        local allPlayers = Shared.GetEntitiesWithClassname("Player")
+        for _, fromPlayer in ientitylist(allPlayers) do
+            local clientIndex = fromPlayer:GetClientIndex()
+            
+            if HasMixin(fromPlayer, "Scoring") then
+                fromPlayer:AddScore(playerScores[clientIndex].Score, 0)
+            end    
+            
+            fromPlayer.kills = playerScores[clientIndex].Kills
+            fromPlayer.deaths = playerScores[clientIndex].Deaths
+        end
         
         // Choose a random player as Faded
         local player
@@ -170,14 +204,14 @@ if (Server) then
             FadedMod:SpawnAsFade()
             
             // Some info messages
-            self:GetTeam1():FadedMessage(strformat(locale:ResolveString("HIDDEN_PLAYER_IS_NOW_THE_HIDDEN"), player:GetName()))
-            self:GetTeam1():FadedMessage(locale:ResolveString("HIDDEN_MARINE_GAME_STARTED_1"))
+            self:GetTeam1():FadedMessage(strformat(locale:ResolveString("FADED_PLAYER_IS_NOW_THE_FADED"), player:GetName()))
+            self:GetTeam1():FadedMessage(locale:ResolveString("FADED_MARINE_GAME_STARTED_1"))
             if (kFadedModFriendlyFireEnabled) then
-                self:GetTeam1():FadedMessage(locale:ResolveString("HIDDEN_MARINE_GAME_STARTED_2"))
+                self:GetTeam1():FadedMessage(locale:ResolveString("FADED_MARINE_GAME_STARTED_2"))
             end    
             
-            self:GetTeam2():FadedMessage(strformat(locale:ResolveString("HIDDEN_YOU_ARE_NOW_THE_HIDDEN"), player:GetName()))
-            self:GetTeam2():FadedMessage(locale:ResolveString("HIDDEN_GAME_STARTED"))     
+            self:GetTeam2():FadedMessage(strformat(locale:ResolveString("FADED_YOU_ARE_NOW_THE_FADED"), player:GetName()))
+            self:GetTeam2():FadedMessage(locale:ResolveString("FADED_GAME_STARTED"))     
        
             if (kFadedModVersion:lower():find("development")) then
                 Shared:FadedMessage("Warning! This is a development version! It's for testing purpose only!")
@@ -239,11 +273,11 @@ if (Server) then
                 fadedPregameFiveSecMessage = false
             else
                 if (fadedPregameFiveSecMessage == false and floor(preGameTime - self.timeSinceGameStateChanged) == 5) then
-                    Shared:FadedMessage(strformat(locale:ResolveString("HIDDEN_GAME_STARTS_IN"), 5)) 
+                    Shared:FadedMessage(strformat(locale:ResolveString("FADED_GAME_STARTS_IN"), 5)) 
                     fadedPregameFiveSecMessage = true
                     fadedPregameTenSecMessage = true
                 elseif (fadedPregameTenSecMessage == false and floor(preGameTime - self.timeSinceGameStateChanged) == 10) then
-                    Shared:FadedMessage(strformat(locale:ResolveString("HIDDEN_GAME_STARTS_IN"), 10))
+                    Shared:FadedMessage(strformat(locale:ResolveString("FADED_GAME_STARTS_IN"), 10))
                     fadedPregameTenSecMessage = true
                 end        
             end
@@ -282,10 +316,10 @@ if (Server) then
         
         local player = client:GetControllingPlayer()
         
-        player:FadedMessage(locale:ResolveString("HIDDEN_WELCOME_MESSAGE_1"))
-        player:FadedMessage(locale:ResolveString("HIDDEN_WELCOME_MESSAGE_2"))
-        player:FadedMessage(locale:ResolveString("HIDDEN_WELCOME_MESSAGE_3"))
-        player:FadedMessage(locale:ResolveString("HIDDEN_WELCOME_MESSAGE_4"))
+        player:FadedMessage(locale:ResolveString("FADED_WELCOME_MESSAGE_1"))
+        player:FadedMessage(locale:ResolveString("FADED_WELCOME_MESSAGE_2"))
+        player:FadedMessage(locale:ResolveString("FADED_WELCOME_MESSAGE_3"))
+        player:FadedMessage(locale:ResolveString("FADED_WELCOME_MESSAGE_4"))
         
         Server.SendNetworkMessage(player, "RoundTime", { time = kFadedModRoundTimerInSecs }, true)
     end

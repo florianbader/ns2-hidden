@@ -160,7 +160,7 @@ FadedGUIMarineEquipmentMenu.weaponList = {
 FadedGUIMarineEquipmentMenu.equipmentList = {   
             kTechId.Welder,
             kTechId.LayMines,
-            kTechId.Jetpack,
+            //kTechId.Jetpack,
         }        
 
 function FadedGUIMarineEquipmentMenu:Initialize()
@@ -261,7 +261,7 @@ function FadedGUIMarineEquipmentMenu:_InitializeMenuHeader()
     self.menuHeaderTitle:SetTextAlignmentX(GUIItem.Align_Center)
     self.menuHeaderTitle:SetTextAlignmentY(GUIItem.Align_Center)
     self.menuHeaderTitle:SetColor(FadedGUIMarineEquipmentMenu.kTextColor)
-    self.menuHeaderTitle:SetText(Locale.ResolveString("HIDDEN_MARINE_SELECT_EQUIPMENT"))
+    self.menuHeaderTitle:SetText(Locale.ResolveString("FADED_MARINE_SELECT_EQUIPMENT"))
     self.menuHeader:AddChild(self.menuHeaderTitle)    
 end
 
@@ -436,7 +436,7 @@ function FadedGUIMarineEquipmentMenu:_InitializeSaveButton()
     self.saveButtonText:SetFontName(FadedGUIMarineEquipmentMenu.kFont)
     self.saveButtonText:SetTextAlignmentX(GUIItem.Align_Center)
     self.saveButtonText:SetTextAlignmentY(GUIItem.Align_Center)
-    self.saveButtonText:SetText(Locale.ResolveString("HIDDEN_MARINE_SELECT_EQUIPMENT_SAVE"))
+    self.saveButtonText:SetText(Locale.ResolveString("FADED_MARINE_SELECT_EQUIPMENT_SAVE"))
     self.saveButtonText:SetFontIsBold(true)
     self.saveButtonText:SetColor(FadedGUIMarineEquipmentMenu.kCloseButtonColor)
     self.saveButton:AddChild(self.saveButtonText)    

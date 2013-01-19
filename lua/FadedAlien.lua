@@ -48,6 +48,6 @@ function Player:OnKill(attacker, doer, point, direction)
     // The player who killed the Faded has a higher chance to be the Faded next round
     if (self:GetTeamNumber() == 2 and attacker and attacker:isa("Marine")) then
         fadedNextPlayer = attacker:GetName()
-        attacker:FadedMessage(locale:ResolveString("HIDDEN_SELECTION_MARINE"))
+        attacker:FadedMessage(locale:ResolveString("FADED_SELECTION_MARINE"))
     end    
 end
