@@ -28,6 +28,8 @@ Script.Load("lua/FadedNetworkMessages_Server.lua")
 Script.Load("lua/FadedWeapon.lua")
 Script.Load("lua/FadedTeamAttack.lua")
 Script.Load("lua/FadedPlayer_Server.lua")
+Script.Load("lua/FadedPointGiverMixin.lua")
+Script.Load("lua/FadedAcidRockets.lua")
 Script.Load("lua/FadedGamerules.lua")
 
 // Only include the Test script in the development version

@@ -14,7 +14,7 @@ function Fade:InitWeapons()
 end
 
 function Fade:GetTierTwoTechId()
-    return kTechId.None //Stab
+    return kTechId.BileBomb //Stab
 end
 
 function Fade:GetTierThreeTechId()

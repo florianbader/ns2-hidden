@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
   <file>
+    <filename>FadedAcidRockets.lua</filename>
+  </file>
+  <file>
     <filename>FadedAlien.lua</filename>
   </file>
   <file>
@@ -19,6 +22,18 @@
     <filename>FadedFade_Server.lua</filename>
   </file>
   <file>
+    <filename>FadedGUIFadeLeapHelp.lua</filename>
+  </file>
+  <file>
+    <filename>FadedGUIFadeVisionHelp.lua</filename>
+  </file>
+  <file>
+    <filename>FadedGUIFadeWallgripHelp.lua</filename>
+  </file>
+  <file>
+    <filename>FadedGUIMarineBuyHelp.lua</filename>
+  </file>
+  <file>
     <filename>FadedGUIMarineEquipmentMenu.lua</filename>
   </file>
   <file>
@@ -31,7 +46,13 @@
     <filename>FadedGlobals.lua</filename>
   </file>
   <file>
-    <filename>FadedMarineSelectEquipment.lua</filename>
+    <filename>FadedHUD.lua</filename>
+  </file>
+  <file>
+    <filename>FadedMarine.lua</filename>
+  </file>
+  <file>
+    <filename>FadedMines.lua</filename>
   </file>
   <file>
     <filename>FadedNetworkMessages_Server.lua</filename>
@@ -43,7 +64,16 @@
     <filename>FadedPistol.lua</filename>
   </file>
   <file>
+    <filename>FadedPlayer_Server.lua</filename>
+  </file>
+  <file>
+    <filename>FadedPointGiverMixin.lua</filename>
+  </file>
+  <file>
     <filename>FadedPredict.lua</filename>
+  </file>
+  <file>
+    <filename>FadedRagdoll.lua</filename>
   </file>
   <file>
     <filename>FadedRoundTimer.lua</filename>

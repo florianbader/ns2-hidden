@@ -32,7 +32,9 @@ function FadedMod:SpawnAsFade()
         newPlayer:GiveUpgrade(kTechId.Adrenaline)
         newPlayer:GiveUpgrade(kTechId.Celerity)
         
-        local playerCountHandicap = marineTeamPlayerCount > 8 and marineTeamPlayerCount / 8 or 1
+        local playerCountHandicap = marineTeamPlayerCount > kFadedModMaxMarinePlayersUntilFadeScale 
+                and marineTeamPlayerCount / kFadedModMaxMarinePlayersUntilFadeScale 
+                or 1
         
         newPlayer:SetMaxHealth(playerCountHandicap * LookupTechData(kTechId.Fade, kTechDataMaxHealth))
         newPlayer:SetHealth(playerCountHandicap * LookupTechData(kTechId.Fade, kTechDataMaxHealth))

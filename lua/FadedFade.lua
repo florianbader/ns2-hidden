@@ -7,6 +7,7 @@
 // =====================================================
 
 Script.Load("lua/FadedSwipeLeap.lua")
+Script.Load("lua/FadedAcidRockets.lua")
 //Script.Load("lua/TechData.lua")
 
 if (Server) then
@@ -88,6 +89,21 @@ function Fade:OnCreate()
     self.wallGripCheckEnabled = false
     
     self.leaping = false
+end
+
+local fadeOnInitialize = Fade.OnInitialized
+function Fade:OnInitialized()
+    fadeOnInitialize(self)
+
+    if (Client) then
+        self:AddHelpWidget("FadedGUIFadeLeapHelp", kFadedModGUIHelpLimit)
+        self:AddHelpWidget("FadedGUIFadeWallgripHelp", kFadedModGUIHelpLimit)
+        self:AddHelpWidget("FadedGUIFadeVisionHelp", kFadedModGUIHelpLimit)
+    end
+end    
+
+function Fade:GetIsLeaping()
+    return self.leaping
 end
 
 function Fade:GetIsWallGripping()
@@ -246,5 +262,9 @@ function Fade:GetAirMoveScalar()
     
     return 0
 end
+
+function Fade:GetCanBeSetOnFire()
+    return kFadedModFadeCanBeSetOnFire
+end    
 
 Shared.LinkClassToMap("Fade", Fade.kMapName, networkVars)

@@ -11,7 +11,8 @@ Script.Load("lua/Client.lua")
 
 // Load faded mod client scripts
 Script.Load("lua/FadedShared.lua")
-Script.Load("lua/FadedMarineSelectEquipment.lua")
+Script.Load("lua/FadedHUD.lua")
+Script.Load("lua/FadedHelpMixin.lua")
 
 // Only include the Test script in the development version
 if (kFadedModVersion:lower():find("development")) then

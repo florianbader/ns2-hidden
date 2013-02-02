@@ -20,7 +20,7 @@ end
 local function SharedUpdate(self)
     if Server then          
         //self.parasited = true    
-    elseif Client and not Shared.GetIsRunningPrediction() then 
+    elseif Client then //and not Shared.GetIsRunningPrediction() then 
         local player = Client.GetLocalPlayer()
    
         if (player:isa("Alien") and player:GetDarkVisionEnabled()) then

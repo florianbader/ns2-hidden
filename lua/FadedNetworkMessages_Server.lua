@@ -8,12 +8,33 @@
 
 Script.Load("lua/TechData.lua")
 
+local floor = math.floor
+
 local function OnMessageSelectEquipment(client, message)
+    local gameTime = GetGamerules():GetGameStartTime()
+    if gameTime ~= 0 then
+        gameTime = floor(Shared.GetTime()) - gameTime
+    end
+    
+    if (gameTime >= kFadedModTimeInSecondsSelectingEquipmentIsAllowed) then
+        return
+    end    
+
     local player = client:GetControllingPlayer()
         
     local equipment = message.Equipment or kTechId.Welder
     local equipmentMapName = LookupTechData(equipment, kTechDataMapName)
     
+    // Remove all weapons and equipment and give the marine back his pistol and axe.
+    player:DropAllWeapons()
+    player:DestroyWeapons()
+    player = player:RemoveJetpack()
+    
+    player:GiveItem(Axe.kMapName)
+    player:GiveItem(Pistol.kMapName)
+    player:GiveItem(Rifle.kMapName)
+        
+    // Give the marine the selected weapon and equipment.
     if equipment == kTechId.Jetpack then
         player:GiveJetpack()
     else
@@ -32,5 +53,23 @@ local function OnMessageSelectEquipment(client, message)
         Shared.PlayWorldSound(nil, Marine.kGunPickupSound, nil, player:GetOrigin())    
     end      
 end
+
+function Marine:RemoveJetpack()
+    if (not self:isa("JetpackMarine")) then return self end
+
+    local activeWeapon = self:GetActiveWeapon()
+    local activeWeaponMapName = nil
+    local health = self:GetHealth()
+    
+    if activeWeapon ~= nil then
+        activeWeaponMapName = activeWeapon:GetMapName()
+    end
+    
+    local marine = self:Replace(Marine.kMapName, self:GetTeamNumber(), true, Vector(self:GetOrigin()))
+    
+    marine:SetActiveWeapon(activeWeaponMapName)
+    marine:SetHealth(health)
+    return marine
+end    
 
 Server.HookNetworkMessage("SelectEquipment", OnMessageSelectEquipment)
