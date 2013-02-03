@@ -6,7 +6,7 @@
 //
 // =====================================================
 
-kFadedModVersion = "0.5-development"
+kFadedModVersion = "0.6-alpha"
 
 kFadedModTimeTillNewRound = 6
 kFadedModPregameLength = 6
@@ -35,4 +35,4 @@ kFlamethrowerBurnDuration = 1
 kFadedModBombVelocity = 30
 kFadedModBombFireRateinSeconds = 1
 
-kFadedModGUIHelpLimit = 99999
+kFadedModGUIHelpLimit = 3

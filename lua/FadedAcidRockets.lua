@@ -73,4 +73,9 @@ function BileBomb:FireBombProjectile(player)
     
 end
 
+// We don't need shadow step when we can leap
+function BileBomb:GetCanShadowStep()
+    return false
+end   
+
 Shared.LinkClassToMap("BileBomb", BileBomb.kMapName, networkVars)
