@@ -40,7 +40,7 @@ function FadedGUIMarineBuyHelp:Update(dt)
     local player = Client.GetLocalPlayer()
     if player then
     
-        if not self.keyBackground:GetIsVisible() then
+        if not self.openedBuyMenu and not self.keyBackground:GetIsVisible() then
             HelpWidgetAnimateIn(self.buyImage)
         end
         
