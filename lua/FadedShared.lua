@@ -28,6 +28,30 @@ local kSelectEquipmentMessage =
 Shared.RegisterNetworkMessage("SelectEquipment", kSelectEquipmentMessage)  
 Shared.RegisterNetworkMessage("RoundTime", { time = "integer" })
 
+local lastShutdownLights = nil
+function ShutdownLights()
+    if (lastShutdownLights and (Shared.GetTime() - lastShutdownLights) < 2) then return end
+    lastShutdownLights = Shared.GetTime()
+    
+    local color = Color(0.1, 0.1, 0.1)
+    
+    for index, renderLight in ipairs(Client.lightList) do
+        renderLight:SetIntensity(0.2)    
+        renderLight:SetColor(color)
+        
+        if renderLight:GetType() == RenderLight.Type_AmbientVolume then            
+            renderLight:SetDirectionalColor(RenderLight.Direction_Right,    color)
+            renderLight:SetDirectionalColor(RenderLight.Direction_Left,     color)
+            renderLight:SetDirectionalColor(RenderLight.Direction_Up,       color)
+            renderLight:SetDirectionalColor(RenderLight.Direction_Down,     color)
+            renderLight:SetDirectionalColor(RenderLight.Direction_Forward,  color)
+            renderLight:SetDirectionalColor(RenderLight.Direction_Backward, color)                
+        end 
+    end    
+end
+
+Event.Hook("UpdateClient", ShutdownLights)
+
 // Dont't reset the scoreboard on game reset
 function OnCommandOnResetGame()
     //Scoreboard_OnResetGame()
