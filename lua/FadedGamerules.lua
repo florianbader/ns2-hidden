@@ -50,15 +50,14 @@ if (Server) then
 
     // Only allow players to join the marine and random team
     function NS2Gamerules:GetCanJoinTeamNumber(teamNumber)
-        return (teamNumber ~= 2)
+        return true //(teamNumber ~= 2)
     end
     
     // Only allow players to join the marine team
     local joinTeam = NS2Gamerules.JoinTeam    
     function NS2Gamerules:JoinTeam(player, newTeamNumber, force)
         if (newTeamNumber == 2 and not force) then
-            player:FadedMessage(locale:ResolveString("JOIN_ERROR_TOO_MANY"))
-            return false, player
+            newTeamNumber = 1
         end
 
         return joinTeam(self, player, newTeamNumber, force) 
@@ -112,7 +111,7 @@ if (Server) then
             local team1Players = self.team1:GetNumPlayers()
             local team2Players = self.team2:GetNumPlayers()
             
-            if (team1Players == 1 and Shared.GetTime() - (fadedModLastTimeTwoPlayersToStartMessage or 0) > kFadedModTwoPlayerToStartMessage) then
+            if (team1Players == 1 and team2Players == 0 and Shared.GetTime() - (fadedModLastTimeTwoPlayersToStartMessage or 0) > kFadedModTwoPlayerToStartMessage) then
                 Shared:FadedMessage(locale:ResolveString("FADED_GAME_NEEDS_TWO_PLAYERS"))
                 fadedModLastTimeTwoPlayersToStartMessage = Shared.GetTime()
             elseif (team1Players > 1 or (team1Players > 0 and team2Players > 0)) then
@@ -220,13 +219,15 @@ if (Server) then
             end
         end  
         
-        // Remove all power nodes, resource points
-        local removeEntities = { "ResourcePoint", "PowerPoint" }
-        for i, entityType in ipairs(removeEntities) do
-            for index, entity in ientitylist(Shared.GetEntitiesWithClassname(entityType)) do
-                DestroyEntity(entity)
-            end    
-        end
+        // Remove all resource points
+        for index, entity in ientitylist(Shared.GetEntitiesWithClassname("ResourcePoint")) do
+            DestroyEntity(entity)
+        end    
+        
+        // Turn off the lights!        
+        for index, entity in ientitylist(Shared.GetEntitiesWithClassname("PowerPoint")) do             
+            entity:SetModel(nil)
+        end  
     end
         
     // Reset the game on round end
