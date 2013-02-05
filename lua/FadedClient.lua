@@ -22,8 +22,8 @@ end
 function PowerPoint:UpdatePoweredLights()
     local color = Color(0.2, 0.2, 0.2)
     
-    for _, renderLight in ipairs(GetLightsForLocation(self:GetLocationName())) do
-        renderLight:SetIntensity(0.2)    
+    for index, renderLight in ipairs(Client.lightList) do
+        renderLight:SetIntensity(0.1)    
         renderLight:SetColor(color)
         
         if renderLight:GetType() == RenderLight.Type_AmbientVolume then            
