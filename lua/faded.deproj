@@ -16,6 +16,9 @@
     <filename>FadedConsoleCommands.lua</filename>
   </file>
   <file>
+    <filename>FadedDistortionMixin.lua</filename>
+  </file>
+  <file>
     <filename>FadedFade.lua</filename>
   </file>
   <file>
@@ -29,6 +32,9 @@
   </file>
   <file>
     <filename>FadedGUIFadeWallgripHelp.lua</filename>
+  </file>
+  <file>
+    <filename>FadedGUIFeedback.lua</filename>
   </file>
   <file>
     <filename>FadedGUIMarineBuyHelp.lua</filename>
@@ -49,7 +55,13 @@
     <filename>FadedHUD.lua</filename>
   </file>
   <file>
+    <filename>FadedHelpMixin.lua</filename>
+  </file>
+  <file>
     <filename>FadedMarine.lua</filename>
+  </file>
+  <file>
+    <filename>FadedMarine_Client.lua</filename>
   </file>
   <file>
     <filename>FadedMines.lua</filename>

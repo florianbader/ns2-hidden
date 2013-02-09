@@ -13,6 +13,9 @@ Script.Load("lua/Client.lua")
 Script.Load("lua/FadedShared.lua")
 Script.Load("lua/FadedHUD.lua")
 Script.Load("lua/FadedHelpMixin.lua")
+Script.Load("lua/FadedAmbientSound.lua")
+
+GetGUIManager():CreateGUIScript("FadedGUIFeedback")
 
 // Only include the Test script in the development version
 if (kFadedModVersion:lower():find("development")) then

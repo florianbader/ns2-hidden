@@ -11,7 +11,7 @@ Script.Load("lua/FadedAcidRockets.lua")
 //Script.Load("lua/TechData.lua")
 
 if (Server) then
-    Script.Load("lua/FadedFade_Server.lua")
+    Script.Load("lua/FadedFade_Server.lua")    
 end
 /*
 local tinsert = table.insert
@@ -89,6 +89,11 @@ function Fade:OnCreate()
     self.wallGripCheckEnabled = false
     
     self.leaping = false
+    
+    // Fade starts with alien vision on
+    if (Client) then
+        self.darkVisionOn = true
+    end    
 end
 
 local fadeOnInitialize = Fade.OnInitialized

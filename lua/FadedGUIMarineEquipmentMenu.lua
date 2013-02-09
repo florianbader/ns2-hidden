@@ -8,6 +8,8 @@
 
 Script.Load("lua/GUIAnimatedScript.lua")
 
+local locale = LibCache:GetLibrary("LibLocales-1.0")
+
 class 'FadedGUIMarineEquipmentMenu' (GUIAnimatedScript)
 
 FadedGUIMarineEquipmentMenu.kBuyMenuTexture = "ui/marine_buy_textures.dds"
@@ -436,7 +438,7 @@ function FadedGUIMarineEquipmentMenu:_InitializeSaveButton()
     self.saveButtonText:SetFontName(FadedGUIMarineEquipmentMenu.kFont)
     self.saveButtonText:SetTextAlignmentX(GUIItem.Align_Center)
     self.saveButtonText:SetTextAlignmentY(GUIItem.Align_Center)
-    self.saveButtonText:SetText(Locale.ResolveString("FADED_MARINE_SELECT_EQUIPMENT_SAVE"))
+    self.saveButtonText:SetText(locale:ResolveString("FADED_MARINE_SELECT_EQUIPMENT_SAVE"))
     self.saveButtonText:SetFontIsBold(true)
     self.saveButtonText:SetColor(FadedGUIMarineEquipmentMenu.kCloseButtonColor)
     self.saveButton:AddChild(self.saveButtonText)    

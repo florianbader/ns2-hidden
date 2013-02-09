@@ -6,19 +6,12 @@
 //
 // =====================================================
 
-// Load libraries
-Script.Load("lua/libs/LibCache/LibCache.lua")
-
 // Load the ns2 server script
 Script.Load("lua/Server.lua")
 
-// Load libraries
-Script.Load("lua/libs/LibLocales-1.0/LibLocales.lua")
-Script.Load("lua/libs/LibMessages-1.0/LibMessages.lua")
-
 // Load faded mod server scripts
-Script.Load("lua/FadedServerConfig.lua")
 Script.Load("lua/FadedShared.lua")
+Script.Load("lua/FadedServerConfig.lua")
 Script.Load("lua/FadedUpgradableMixin.lua")
 Script.Load("lua/FadedTeam.lua")
 Script.Load("lua/FadedSounds.lua")
@@ -37,4 +30,6 @@ if (kFadedModVersion:lower():find("development")) then
     Script.Load("lua/FadedTest.lua")
 elseif (kFadedModVersion:lower():find("alpha")) then
     Shared:FadedMessage("Warning! This is an alpha version, which means it's not finished yet!")
+elseif (kFadedModVersion:lower():find("beta")) then
+    Shared:FadedMessage("This mod is in beta. Feel free to leave feedback on the Steam workshop page.")
 end    

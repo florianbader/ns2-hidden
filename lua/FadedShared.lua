@@ -2,9 +2,14 @@
 //
 // lua\FadedShared.lua
 //
-//    Created by: rio (rio@myrio.de)
+//    Created by: Rio (rio@myrio.de)
 //
 // =====================================================
+
+// Load libraries
+Script.Load("lua/libs/LibCache/LibCache.lua")
+Script.Load("lua/libs/LibLocales-1.0/LibLocales.lua")
+Script.Load("lua/libs/LibMessages-1.0/LibMessages.lua")
 
 Script.Load("lua/MarineTeam.lua")
 Script.Load("lua/AlienTeam.lua")
@@ -17,7 +22,8 @@ Script.Load("lua/FadedFade.lua")
 Script.Load("lua/FadedMarine.lua")
 Script.Load("lua/FadedMines.lua")
 Script.Load("lua/FadedAlien.lua")
-Script.Load("lua/FadedRagdoll.lua")
+Script.Load("lua/FadedVoiceOver.lua")
+//Script.Load("lua/FadedRagdoll.lua")
 
 local kSelectEquipmentMessage =
 {
@@ -33,10 +39,10 @@ function ShutdownLights()
     if (lastShutdownLights and (Shared.GetTime() - lastShutdownLights) < 2) then return end
     lastShutdownLights = Shared.GetTime()
     
-    local color = Color(0.1, 0.1, 0.1)
+    local color = Color(kFadedModLightColorScale, kFadedModLightColorScale, kFadedModLightColorScale)
     
     for index, renderLight in ipairs(Client.lightList) do
-        renderLight:SetIntensity(0.2)    
+        renderLight:SetIntensity(kFadedModLightIntensity)    
         renderLight:SetColor(color)
         
         if renderLight:GetType() == RenderLight.Type_AmbientVolume then            
@@ -62,6 +68,13 @@ function Scoreboard_OnResetGame()
 end
 
 function Scoreboard_Clear()
+end
+
+local libLocale = LibCache:GetLibrary("LibLocales-1.0")
+if (Client) then
+    function Locale.ResolveString(text)
+        return libLocale:ResolveString(text) or ""
+    end
 end
     
 if (Server) then  

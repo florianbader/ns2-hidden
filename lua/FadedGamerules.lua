@@ -106,17 +106,22 @@ if (Server) then
     end
                    
     // Define the rules for the game start
-    function NS2Gamerules:CheckGameStart()
-        if self:GetGameState() == kGameState.NotStarted or self:GetGameState() == kGameState.PreGame then
-            local team1Players = self.team1:GetNumPlayers()
-            local team2Players = self.team2:GetNumPlayers()
-            
-            if (team1Players == 1 and team2Players == 0 and Shared.GetTime() - (fadedModLastTimeTwoPlayersToStartMessage or 0) > kFadedModTwoPlayerToStartMessage) then
-                Shared:FadedMessage(locale:ResolveString("FADED_GAME_NEEDS_TWO_PLAYERS"))
-                fadedModLastTimeTwoPlayersToStartMessage = Shared.GetTime()
-            elseif (team1Players > 1 or (team1Players > 0 and team2Players > 0)) then
+    function NS2Gamerules:CheckGameStart()        
+        local team1Players = self.team1:GetNumPlayers()
+        local team2Players = self.team2:GetNumPlayers()
+        
+        if (team1Players == 1 and team2Players == 0 and Shared.GetTime() - (fadedModLastTimeTwoPlayersToStartMessage or 0) > kFadedModTwoPlayerToStartMessage) then
+            Shared:FadedMessage(locale:ResolveString("FADED_GAME_NEEDS_TWO_PLAYERS"))
+            fadedModLastTimeTwoPlayersToStartMessage = Shared.GetTime()
+            return
+        end            
+    
+        if self:GetGameState() == kGameState.NotStarted then
+            if (team1Players > 1 or (team1Players > 0 and team2Players > 0)) then
                 self:SetGameState(kGameState.PreGame)
-            elseif self:GetGameState() == kGameState.PreGame then
+            end
+        elseif self:GetGameState() == kGameState.PreGame then            
+            if (team1Players == 1 and team2Players == 0) then
                 self:SetGameState(kGameState.NotStarted)
             end 
         end    
@@ -216,6 +221,8 @@ if (Server) then
                 Shared:FadedMessage("Warning! This is a development version! It's for testing purpose only!")
             elseif (kFadedModVersion:lower():find("alpha")) then
                 Shared:FadedMessage("Warning! This is an alpha version, which means it's not finished yet!")
+            elseif (kFadedModVersion:lower():find("beta")) then
+                Shared:FadedMessage("This mod is in beta. Feel free to leave feedback on the Steam workshop page.")
             end
         end  
         

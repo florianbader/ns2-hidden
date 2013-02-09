@@ -6,7 +6,7 @@
 //
 // =====================================================
 
-kFadedModVersion = "0.7-alpha"
+kFadedModVersion = "0.8-beta"
 
 kFadedModTimeTillNewRound = 6
 kFadedModPregameLength = 6
@@ -36,3 +36,8 @@ kFadedModBombVelocity = 30
 kFadedModBombFireRateinSeconds = 1
 
 kFadedModGUIHelpLimit = 3
+
+kFadedModDistortionRadius = 20
+
+kFadedModLightColorScale = 0.15
+kFadedModLightIntensity = 0.2

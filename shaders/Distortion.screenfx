@@ -1,0 +1,11 @@
+float time
+float amount
+
+pass p1 file "shaders/Distortion.fx" technique "SFXDistortion"
+{
+    baseTexture     = input
+	inputTexture 	= input
+	time			= time
+    amount          = amount
+    output          = input
+}
