@@ -7,6 +7,9 @@
     <filename>FadedAlien.lua</filename>
   </file>
   <file>
+    <filename>FadedAmbientSound.lua</filename>
+  </file>
+  <file>
     <filename>FadedClient.lua</filename>
   </file>
   <file>
@@ -119,6 +122,9 @@
   </file>
   <file>
     <filename>FadedUpgradableMixin.lua</filename>
+  </file>
+  <file>
+    <filename>FadedVoiceOver.lua</filename>
   </file>
   <file>
     <filename>FadedWeapon.lua</filename>

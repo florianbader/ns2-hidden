@@ -21,3 +21,19 @@ GetGUIManager():CreateGUIScript("FadedGUIFeedback")
 if (kFadedModVersion:lower():find("development")) then
     Script.Load("lua/FadedTest.lua")
 end
+
+/*
+local gUIManagerCreateGUIScript = GUIManager.CreateGUIScript
+function GUIManager:CreateGUIScript(scriptName)
+    if (scriptName == "GUIRequestMenu") then
+        Print(scriptName)
+        Script.Load("lua/FadedVoiceOver.lua")
+        script:Uninitialize()
+        script:Initialize()    
+        GUIRequestMenu:Initialize()
+    else        
+        local script = gUIManagerCreateGUIScript(self, scriptName)    
+    end    
+    
+    return script
+end    */

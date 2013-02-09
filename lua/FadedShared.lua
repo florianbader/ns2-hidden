@@ -22,7 +22,7 @@ Script.Load("lua/FadedFade.lua")
 Script.Load("lua/FadedMarine.lua")
 Script.Load("lua/FadedMines.lua")
 Script.Load("lua/FadedAlien.lua")
-Script.Load("lua/FadedVoiceOver.lua")
+//Script.Load("lua/FadedVoiceOver.lua")
 //Script.Load("lua/FadedRagdoll.lua")
 
 local kSelectEquipmentMessage =

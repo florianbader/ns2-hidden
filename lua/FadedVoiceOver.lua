@@ -69,7 +69,6 @@ function GetRequestMenu(side, className)
 
 end
 
-
 if Client then
 
     function GetVoiceDescriptionText(voiceId)

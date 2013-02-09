@@ -41,3 +41,5 @@ kFadedModDistortionRadius = 20
 
 kFadedModLightColorScale = 0.15
 kFadedModLightIntensity = 0.2
+
+kFadedModAllTalkEnabled = true

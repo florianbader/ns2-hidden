@@ -19,6 +19,7 @@ local defaultConfig = {
     friendly_fire_enabled = true,
     faded_selection_chance = 0.6,
     time_in_seconds_selecting_equipment_is_allowed = 8,
+    all_talk_enabled = true,
 }
 WriteDefaultConfigFile(configFileName, defaultConfig)
 
@@ -30,3 +31,4 @@ kFadedModSpawnProtectionTime = config.team_attack_spawn_protection.duration_in_s
 kFadedModFriendlyFireEnabled = config.friendly_fire_enabled or defaultConfig.faded_selection_chance
 kFadedModFadedSelectionChance = config.faded_selection_chance or defaultConfig.faded_selection_chance
 kFadedModTimeInSecondsSelectingEquipmentIsAllowed = config.time_in_seconds_selecting_equipment_is_allowed or defaultConfig.time_in_seconds_selecting_equipment_is_allowed
+kFadedModAllTalkEnabled = config.all_talk_enabled or defaultConfig.all_talk_enabled

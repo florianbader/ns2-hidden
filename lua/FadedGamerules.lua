@@ -336,4 +336,8 @@ if (Server) then
     function NS2Gamerules:GetCanSpawnImmediately()
         return not self:GetGameStarted() or Shared.GetCheatsEnabled() or (Shared.GetTime() < (self.gameStartTime + 0))
     end
+    
+    function NS2Gamerules:GetCanPlayerHearPlayer(listenerPlayer, speakerPlayer)
+        return kFadedModAllTalkEnabled
+    end
 end
