@@ -6,6 +6,8 @@
 //
 // =====================================================
 
+local pow = math.pow
+
 DistortionMixin = CreateMixin(DistortionMixin)
 DistortionMixin.type = "Distortion"
 
@@ -13,7 +15,8 @@ DistortionMixin.expectedCallbacks = {}
 
 // don't update too often
 DistortionMixin.kUpdateIntervall = 0.5
-DistortionMixin.kDistortionIntensity = 12
+DistortionMixin.kDistortionIntensity = 15
+DistortionMixin.kDistortionAcceleration = 1.5
 
 DistortionMixin.expectedMixins =
 {
@@ -37,7 +40,11 @@ local function SharedUpdate(self)
         
         for _, fade in ipairs(nearbyFade) do    
             local distanceToFade = (fade:GetOrigin() - fromPoint):GetLength()
-            self.distortionAmount = DistortionMixin.kDistortionIntensity - Clamp( (distanceToFade / kFadedModDistortionRadius) * DistortionMixin.kDistortionIntensity, 0, DistortionMixin.kDistortionIntensity)
+            
+            self.distortionAmount = DistortionMixin.kDistortionIntensity - 
+                Clamp( (pow(distanceToFade / kFadedModDistortionRadius, DistortionMixin.kDistortionAcceleration)) * DistortionMixin.kDistortionIntensity, 
+                0, DistortionMixin.kDistortionIntensity)
+                
             adjustedDistortion = true  
             break        
         end

@@ -12,6 +12,8 @@ local ambientBackgroundSounds = {
     { sound = "sound/faded.fev/ambient/clank", length = 12382 },
     { sound = "sound/faded.fev/ambient/alien_noise", length = 11415 },
     { sound = "sound/faded.fev/ambient/alien_noise2", length = 26409 },
+    { sound = "sound/faded.fev/ambient/alien_noise2", length = 26409 },
+    { sound = "sound/faded.fev/ambient/horror_ambient", length = 38243 },    
 }
 
 local ambientFadedSounds = {

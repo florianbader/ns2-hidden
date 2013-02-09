@@ -129,4 +129,7 @@
   <file>
     <filename>FadedWeapon.lua</filename>
   </file>
+  <file>
+    <filename>VoiceOver.lua</filename>
+  </file>
 </project>

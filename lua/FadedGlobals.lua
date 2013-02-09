@@ -6,7 +6,7 @@
 //
 // =====================================================
 
-kFadedModVersion = "0.8-beta"
+kFadedModVersion = "0.8-development"
 
 kFadedModTimeTillNewRound = 6
 kFadedModPregameLength = 6
