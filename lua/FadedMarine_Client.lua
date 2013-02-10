@@ -6,6 +6,8 @@
 //
 // =====================================================
 
+local random = math.random
+
 Player.screenEffects.distortion = Client.CreateScreenEffect("shaders/Distortion.screenfx")
 Player.screenEffects.distortion:SetActive(false)
 Player.screenEffects.darkVision:SetActive(false)
@@ -25,6 +27,7 @@ function Marine:UpdateClientEffects(deltaTime, isLocal)
     
     if Player.screenEffects.distortion then
         Player.screenEffects.distortion:SetParameter("time", Client.GetTime())
+        Player.screenEffects.distortion:SetParameter("randomNumber", random(1, 9))
     end
 end
 

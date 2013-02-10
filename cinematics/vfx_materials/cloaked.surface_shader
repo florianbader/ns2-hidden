@@ -20,8 +20,8 @@
 			const float3 tint  = float3(0.4, 0.7, 1.0) * 0.8;
 			const float3 tint2 = float3(0.4, 0.4, 1.0) * 0.3;
 			
-			float3 noise = tex2D( noiseMap, input.texCoord  * 2 + float2(time * .25, time * 0.41)*0.2 ).rgb * 0.15;
-			float3 noise2 = tex2D( noiseMap, input.texCoord  * 1.5 + float2(time * .41, time * 0.25)*0.3 ).rgb * 0.15;
+			float3 noise = tex2D( noiseMap, input.texCoord  * 2 + float2(time * .25, time * 0.41)*0.2 ).rgb * 0.08;
+			float3 noise2 = tex2D( noiseMap, input.texCoord  * 1.5 + float2(time * .41, time * 0.25)*0.3 ).rgb * 0.08;
 			
 			material.emissive = (pow(1 - abs(input.vsNormal.z), 2) * cloakAmount * noise * tint + noise2 * cloakAmount * tint2);
 		}

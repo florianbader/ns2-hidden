@@ -37,7 +37,9 @@ kFadedModBombFireRateinSeconds = 1
 
 kFadedModGUIHelpLimit = 3
 
-kFadedModDistortionRadius = 20
+kFadedModDistortionRadius = 15
+kFadedModDistortionIntensity = 15
+kFadedModDistortionAcceleration = 1.6
 
 kFadedModLightColorScale = 0.15
 kFadedModLightIntensity = 0.2

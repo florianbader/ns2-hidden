@@ -152,9 +152,9 @@ float4 FinalCompositePS(PS_INPUT input) : COLOR0
     float4 glow = tex2D(inputTextureSampler1,  input.texCoord);
     if (glow.r > 0)
 	{
-        float4 smoke = tex2D(noiseTextureSampler, input.texCoord * 3 + time * 0.12);
-        float opacity = 1.4 - tex2D( inputTextureSampler2, input.texCoord).a;
-		result += glow * smoke * float4(1, 0, 0, 1) * opacity; 
+        float4 smoke = tex2D(noiseTextureSampler, input.texCoord * 4 + time * 0.12);
+        float opacity = 1.5 - tex2D( inputTextureSampler2, input.texCoord).a;
+		result += glow * smoke * float4(15, 0, 0, 1) * opacity;
 	}
 
 	return result;

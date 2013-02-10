@@ -21,6 +21,7 @@ texture     inputTexture;
 texture     baseTexture;
 float		time;
 float       amount;
+float       randomNumber;
 
 sampler inputTextureSampler = sampler_state
     {
@@ -72,15 +73,17 @@ float4 SFXDistortionPS(PS_INPUT input) : COLOR0
 		
 	float4 base = tex2D(inputTextureSampler, input.texCoord);
 		
-	if (sin(time * 20) < 0 && input.texCoord.y * 1000 % 4 >= 2
-        || sin(time * 20) > 0 && input.texCoord.y * 1000 % 4 < 2)
-        return base;
     float4 color = base + result;
+    
+	if (sin(time * 20 * amount / 20) < 0 && (input.texCoord.y + randomNumber) * 1000 % 4 >= 2
+        || sin(time * 20 * amount / 20) > 0 && (input.texCoord.y + randomNumber) * 1000 % 4 < 2)
+        return base;
+    
     
     // Tint everything and blend over the original.
     const float4 tint = float4(amount, amount, amount, 1);
     float intensity = color.r * 0.0126f + color.g * 0.3152f + color.b * 0.0322f;
-    return lerp(base, intensity * tint, 0.9);
+    return lerp(base, intensity * tint, 1);
 		
 }
 

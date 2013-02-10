@@ -1,5 +1,6 @@
 float time
 float amount
+float randomNumber
 
 pass p1 file "shaders/Distortion.fx" technique "SFXDistortion"
 {
@@ -7,5 +8,6 @@ pass p1 file "shaders/Distortion.fx" technique "SFXDistortion"
 	inputTexture 	= input
 	time			= time
     amount          = amount
+    randomNumber    = randomNumber 
     output          = input
 }

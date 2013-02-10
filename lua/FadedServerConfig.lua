@@ -11,7 +11,7 @@ Script.Load("lua/ConfigFileUtility.lua")
 local configFileName = "FadedConfig.json"
 
 local defaultConfig = {
-    round_time_in_seconds = 300,
+    round_time_in_seconds = 480,
     team_attack_spawn_protection = {
         enabled = true,
         duration_in_seconds = 8,
