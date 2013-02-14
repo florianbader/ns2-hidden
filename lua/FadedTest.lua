@@ -107,11 +107,38 @@ if (Server) then
             FadedMod.nextFaded = nil
         end    
     end
+    
+    local function OnCommandFadedSpecial(client)
+        for _, player in ientitylist(Shared.GetEntitiesWithClassname("Marine")) do
+            if (player and player:isa("Marine")) then
+                player:SetModel(Marine.kSpecialEditionModelName, Marine.kMarineAnimationGraph)     
+            end  
+        end
+    end
+    
+    local function OnCommandFadedBlack(client)
+        for _, player in ientitylist(Shared.GetEntitiesWithClassname("Marine")) do
+            if (player and player:isa("Marine")) then
+                player:SetModel(Marine.kBlackArmorModelName, Marine.kMarineAnimationGraph)     
+            end  
+        end
+    end
+    
+    local function OnCommandFadedGreen(client)
+        for _, player in ientitylist(Shared.GetEntitiesWithClassname("Marine")) do
+            if (player and player:isa("Marine")) then
+                player:SetModel(Marine.kModelName, Marine.kMarineAnimationGraph)   
+            end    
+        end
+    end
 
     Event.Hook("Console_addbots", OnConsoleAddBots)
     Event.Hook("Console_fadedlocation", OnCommandFadedLocation)
     Event.Hook("Console_fadedteleport", OnCommandFadedTeleport)
     Event.Hook("Console_fadedthirdperson", OnCommandFadedThirdPerson)
     Event.Hook("Console_fadedme", OnCommandFadedMe)
+    Event.Hook("Console_fadedspecial", OnCommandFadedSpecial)
+    Event.Hook("Console_fadedblack", OnCommandFadedBlack)
+    Event.Hook("Console_fadedgreen", OnCommandFadedGreen)
 elseif (Client) then    
 end    

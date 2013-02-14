@@ -35,7 +35,7 @@ if (Server) then
             
             local playerCountHandicap = marineTeamPlayerCount > kFadedModMaxMarinePlayersUntilFadeScale 
                     and marineTeamPlayerCount / kFadedModMaxMarinePlayersUntilFadeScale 
-                    or 1
+                    or marineTeamPlayerCount / kFadedModMaxMarinePlayersUntilFadeScale * 2
             
             newPlayer:SetMaxHealth(playerCountHandicap * LookupTechData(kTechId.Fade, kTechDataMaxHealth))
             newPlayer:SetHealth(playerCountHandicap * LookupTechData(kTechId.Fade, kTechDataMaxHealth))

@@ -64,7 +64,7 @@ VS_OUTPUT SFXBasicVS(VS_INPUT input)
 
 }
 
-float4 SFXDarkVisionPS(PS_INPUT input) : COLOR0
+float4 SFXFadeVisionPS(PS_INPUT input) : COLOR0
 {
 
 
@@ -112,11 +112,11 @@ float4 SFXDarkVisionPS(PS_INPUT input) : COLOR0
 		edge = clamp(pow(edge * 0.1, 2), 0.01, 2.0);
 		
         if (depth1.r < 0.15){
-            edgeColor = float4(1.3, 10.01, 0, 0);
+            edgeColor = float4(1.3, 1.01, 0, 0);
         }
         else
         {			
-            edgeColor = float4(0, 0, 0, 0) + float4(10, 0.2, 0, 0.1) * (fadeout * 4); //clamp(1 - depth1.r * 0.01, 0.2, 1);                       
+            edgeColor = float4(0, 0, 0, 0) + float4(0.1, 0.1, 0.1, 0) * (fadeout * 4); //clamp(1 - depth1.r * 0.01, 0.2, 1);                       
         }		
         
     }
@@ -127,7 +127,7 @@ float4 SFXDarkVisionPS(PS_INPUT input) : COLOR0
 			edgeColor = float4(0.0, 0.0, 0.0, 0);
 		}
 		else {
-            edgeColor = float4(0.1, 0.3, 0.0, 0) * fadeout;  //float4(0.32, 0.48, 0.2, 0);
+            edgeColor = float4(0.1, 0.1, 0.1, 0) * fadeout;  //float4(0.32, 0.48, 0.2, 0);
 		}
 		
     }
@@ -183,14 +183,14 @@ float4 SFXDarkVisionPS(PS_INPUT input) : COLOR0
    
 }
 
-technique SFXDarkVision
+technique SFXFadeVision
 {
    pass p0
    {
         ZEnable             = False;
        ZWriteEnable        = False;   
        VertexShader        = compile vs_2_0 SFXBasicVS();
-       PixelShader         = compile ps_2_0 SFXDarkVisionPS();
+       PixelShader         = compile ps_2_0 SFXFadeVisionPS();
        CullMode            = None;
    }
 }

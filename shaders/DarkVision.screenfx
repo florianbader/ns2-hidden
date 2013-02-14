@@ -1,0 +1,15 @@
+float   time
+float   startTime
+float   amount
+texture depthTexture
+texture blah
+
+pass p1 file "shaders/DarkVision.fx" technique "SFXDarkVision"
+{
+    baseTexture         = input
+	depthTexture	    = depthTexture
+	time			    = time
+	startTime		    = startTime
+    amount    		    = amount
+    output              = input
+}

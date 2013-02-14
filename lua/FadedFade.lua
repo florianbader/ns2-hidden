@@ -8,23 +8,12 @@
 
 Script.Load("lua/FadedSwipeLeap.lua")
 Script.Load("lua/FadedAcidRockets.lua")
-//Script.Load("lua/TechData.lua")
 
 if (Server) then
     Script.Load("lua/FadedFade_Server.lua")    
+elseif (Client) then
+    Script.Load("lua/FadedFade_Client.lua")        
 end
-/*
-local tinsert = table.insert
-
-local buildTechData = BuildTechData
-function BuildTechData()
-    techData = buildTechData()
-    tinsert(techData, { [kTechDataId] = kTechId.SwipeLeap, [kTechDataMapName] = SwipeLeap.kMapName, [kTechDataDamageType] = kSwipeDamageType, [kTechDataDisplayName] = "SWIPE_LEAP", [kTechDataTooltipInfo] = "SWIPE_TOOLTIP" })
-    return techData
-end
-
-kTechData = BuildTechData() 
-*/
 
 Fade.kLeapForce = 22
 Fade.kLeapTime = 0.2
@@ -65,10 +54,10 @@ AddMixinNetworkVars(CameraHolderMixin, networkVars)
 AddMixinNetworkVars(DissolveMixin, networkVars)
 
 // if the user hits a wall and holds the use key and the resulting speed is < this, grip starts
-Fade.kWallGripMaxSpeed = 4
+Fade.kWallGripMaxSpeed = 6
 // once you press grip, you will slide for this long a time and then stop. This is also the time you
 // have to release your movement keys, after this window of time, pressing movement keys will release the grip.
-Fade.kWallGripSlideTime = 0.7
+Fade.kWallGripSlideTime = 0.2
 // after landing, the y-axis of the model will be adjusted to the wallGripNormal after this time.
 Fade.kWallGripSmoothTime = 0.6
 
@@ -89,11 +78,6 @@ function Fade:OnCreate()
     self.wallGripCheckEnabled = false
     
     self.leaping = false
-    
-    // Fade starts with alien vision on
-    if (Client) then
-        self.darkVisionOn = true
-    end    
 end
 
 local fadeOnInitialize = Fade.OnInitialized
@@ -233,20 +217,7 @@ function Fade:PreUpdateMove(input, runningPrediction)
 end
 
 function Fade:OnLeap()
-    /* 
-local velocity = self:GetVelocity() * 0.5    
-    local minSpeed = math.max(0, Fade.kMinLeapVelocity - velocity:GetLengthXZ() - Fade.kLeapVerticalForce) * self:GetMovementSpeedModifier()
-
-    local forwardVec = self:GetViewAngles():GetCoords().zAxis
-    local newVelocity = (velocity + GetNormalizedVectorXZ(forwardVec) * (Fade.kLeapForce * self:GetMovementSpeedModifier() + minSpeed))
-    
-    // Add in vertical component.
-    newVelocity.y = Fade.kLeapVerticalVelocity * forwardVec.y + Fade.kLeapVerticalForce * self:GetMovementSpeedModifier() + ConditionalValue(velocity.y < 0, velocity.y, 0)
-    
-    self:SetVelocity(newVelocity) 
-    */         
-            
-    local newVelocity = self:GetViewCoords().zAxis * self.kLeapForce * self:GetMovementSpeedModifier() // + self:GetVelocity()
+    local newVelocity = self:GetViewCoords().zAxis * self.kLeapForce * self:GetMovementSpeedModifier()
     self:SetVelocity(newVelocity)  
     
     self.leaping = true
@@ -270,6 +241,10 @@ end
 
 function Fade:GetCanBeSetOnFire()
     return kFadedModFadeCanBeSetOnFire
-end    
+end   
+
+function Fade:GetDarkVisionEnabled()
+    return self.darkVisionOn
+end
 
 Shared.LinkClassToMap("Fade", Fade.kMapName, networkVars)
