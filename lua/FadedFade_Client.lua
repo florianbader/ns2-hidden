@@ -11,8 +11,10 @@ Player.screenEffects.fadeVision:SetActive(false)
 
 local fadeUpdateClientEffects = Fade.UpdateClientEffects
 function Fade:UpdateClientEffects(deltaTime, isLocal)
+    if (not Client.GetLocalPlayer():isa("Fade")) then return end
+
     fadeUpdateClientEffects(self, deltaTime, isLocal)
-    
+
     Player.screenEffects.fadeVision:SetActive(not self:GetDarkVisionEnabled())  
     
     if Player.screenEffects.fadeVision then            

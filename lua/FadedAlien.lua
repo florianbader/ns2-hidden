@@ -34,8 +34,8 @@ if (Server) then
             newPlayer:GiveUpgrade(kTechId.Celerity)
             
             local playerCountHandicap = marineTeamPlayerCount > kFadedModMaxMarinePlayersUntilFadeScale 
-                    and marineTeamPlayerCount / kFadedModMaxMarinePlayersUntilFadeScale 
-                    or marineTeamPlayerCount / kFadedModMaxMarinePlayersUntilFadeScale * 2
+                    and marineTeamPlayerCount / kFadedModMaxMarinePlayersUntilFadeScale * 1.2
+                    or math.max(marineTeamPlayerCount / kFadedModMaxMarinePlayersUntilFadeScale * 1.5, 1)
             
             newPlayer:SetMaxHealth(playerCountHandicap * LookupTechData(kTechId.Fade, kTechDataMaxHealth))
             newPlayer:SetHealth(playerCountHandicap * LookupTechData(kTechId.Fade, kTechDataMaxHealth))
@@ -53,6 +53,10 @@ if (Server) then
             fadedNextPlayer = attacker:GetName()
             attacker:FadedMessage(locale:ResolveString("FADED_SELECTION_MARINE"))
         end    
+    end
+    
+    function Alien:GetDarkVisionEnabled()
+        return self.darkVisionOn
     end
 elseif (Client) then
     function Alien:Buy() end

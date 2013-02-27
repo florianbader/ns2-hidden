@@ -10,7 +10,6 @@ local random = math.random
 
 Player.screenEffects.distortion = Client.CreateScreenEffect("shaders/Distortion.screenfx")
 Player.screenEffects.distortion:SetActive(false)
-Player.screenEffects.darkVision:SetActive(false)
 
 kPlayerEffectData["distortion_loop"] =
 {

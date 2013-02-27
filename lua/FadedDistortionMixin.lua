@@ -37,7 +37,7 @@ local function SharedUpdate(self)
         local adjustedDistortion = false
         
         for _, fade in ipairs(nearbyFade) do    
-            if (fade:GetIsAlive()) then
+            if (fade:GetIsAlive() and fade:GetDarkVisionEnabled()) then
                 local distanceToFade = (fade:GetOrigin() - fromPoint):GetLength()
                 
                 self.distortionAmount = kFadedModDistortionIntensity - 

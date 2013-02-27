@@ -25,6 +25,9 @@
     <filename>FadedFade.lua</filename>
   </file>
   <file>
+    <filename>FadedFade_Client.lua</filename>
+  </file>
+  <file>
     <filename>FadedFade_Server.lua</filename>
   </file>
   <file>
@@ -59,6 +62,9 @@
   </file>
   <file>
     <filename>FadedHelpMixin.lua</filename>
+  </file>
+  <file>
+    <filename>FadedMapBlip.lua</filename>
   </file>
   <file>
     <filename>FadedMarine.lua</filename>

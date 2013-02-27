@@ -78,18 +78,26 @@ function Fade:OnCreate()
     self.wallGripCheckEnabled = false
     
     self.leaping = false
+    
+    self.darkVisionEnabled = false
+    self:SetDarkVision(true)
 end
 
 local fadeOnInitialize = Fade.OnInitialized
 function Fade:OnInitialized()
     fadeOnInitialize(self)
-
+    
     if (Client) then
         self:AddHelpWidget("FadedGUIFadeLeapHelp", kFadedModGUIHelpLimit)
         self:AddHelpWidget("FadedGUIFadeWallgripHelp", kFadedModGUIHelpLimit)
         self:AddHelpWidget("FadedGUIFadeVisionHelp", kFadedModGUIHelpLimit)
     end
 end    
+
+function Fade:SetDarkVision(state)
+    Alien.SetDarkVision(self, state)
+    self.darkVisionEnabled = state
+end
 
 function Fade:GetIsLeaping()
     return self.leaping
@@ -242,9 +250,5 @@ end
 function Fade:GetCanBeSetOnFire()
     return kFadedModFadeCanBeSetOnFire
 end   
-
-function Fade:GetDarkVisionEnabled()
-    return self.darkVisionOn
-end
 
 Shared.LinkClassToMap("Fade", Fade.kMapName, networkVars)
