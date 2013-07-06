@@ -180,26 +180,8 @@ if (Server) then
         end
         
         // Choose a random player as Faded
-        local player
-        if (not FadedMod.nextFaded) then
-            if (fadedNextPlayer) then
-                local randomNumber = random()
-                if (randomNumber < kFadedModFadedSelectionChance) then
-                    player = Shared:GetPlayerByName(fadedNextPlayer)
-                end    
-            end
+        local player = self:GetFaded() 
             
-            if (not player) then            
-                player = Shared:GetRandomPlayer(self.team1.playerIds)
-            end    
-        else
-            // Some cheating for the dev mode
-            player = Shared:GetPlayerByName(FadedMod.nextFaded)
-            if (not player) then 
-                player = Shared:GetRandomPlayer(self.team1.playerIds)
-            end    
-        end    
-        
         if (player) then    
             fadedPlayer = player:GetName()
          
@@ -215,7 +197,7 @@ if (Server) then
             end    
             
             self:GetTeam2():FadedMessage(strformat(locale:ResolveString("FADED_YOU_ARE_NOW_THE_FADED"), player:GetName()))
-            self:GetTeam2():FadedMessage(locale:ResolveString("FADED_GAME_STARTED"))     
+            self:GetTeam2():FadedMessage(locale:ResolveString("FADED_GAME_STARTED_1"))      
        
             if (kFadedModVersion:lower():find("development")) then
                 Shared:FadedMessage("Warning! This is a development version! It's for testing purpose only!")
@@ -235,6 +217,44 @@ if (Server) then
         for index, entity in ientitylist(Shared.GetEntitiesWithClassname("PowerPoint")) do             
             entity:SetModel(nil)
         end  
+    end
+    
+    function NS2Gamerules:GetPossiblePlayerIds()
+        local playerIds = {}
+        for _, player in pairs(self.team1:GetPlayers()) do
+            local playerId = player:GetId()
+            local clientIndex = player:GetClientIndex()
+            
+            if (not self.noFaded[clientIndex]) then
+                tinsert(playerIds, playerId)
+            end
+        end
+        
+        return playerIds
+    end
+    
+    function NS2Gamerules:GetFaded()
+        local player
+        if (not FadedMod.nextFaded) then
+            if (fadedNextPlayer) then
+                local randomNumber = random()
+                if (randomNumber < kFadedModFadedSelectionChance) then
+                    player = Shared:GetPlayerByName(fadedNextPlayer)
+                end    
+            end
+            
+            if (not player) then            
+                player = Shared:GetRandomPlayer(self:GetPossiblePlayerIds())
+            end    
+        else
+            // Some cheating for the dev mode
+            player = Shared:GetPlayerByName(FadedMod.nextFaded)
+            if (not player) then 
+                player = Shared:GetRandomPlayer(self:GetPossiblePlayerIds())
+            end    
+        end         
+
+        return player      
     end
         
     // Reset the game on round end
@@ -328,6 +348,7 @@ if (Server) then
         player:FadedMessage(locale:ResolveString("FADED_WELCOME_MESSAGE_2"))
         player:FadedMessage(locale:ResolveString("FADED_WELCOME_MESSAGE_3"))
         player:FadedMessage(locale:ResolveString("FADED_WELCOME_MESSAGE_4"))
+        player:FadedMessage(locale:ResolveString("FADED_WELCOME_MESSAGE_5"))
         
         Server.SendNetworkMessage(player, "RoundTime", { time = kFadedModRoundTimerInSecs }, true)
     end

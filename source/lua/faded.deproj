@@ -64,6 +64,9 @@
     <filename>FadedHelpMixin.lua</filename>
   </file>
   <file>
+    <filename>FadedLights.lua</filename>
+  </file>
+  <file>
     <filename>FadedMapBlip.lua</filename>
   </file>
   <file>

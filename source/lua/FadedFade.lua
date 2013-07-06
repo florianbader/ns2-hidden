@@ -37,11 +37,8 @@ local networkVars =
     // Wall grip. time == 0 no grip, > 0 when grip started.
     wallGripTime = "private compensated time",
     // the normal that the model will use. Calculated the same way as the skulk
-    wallGripNormalGoal = "private compensated vector",
-    // if we have done our wall normal recheck (when we stop sliding)
-    wallGripRecheckDone = "private compensated boolean",
-    // if wallChecking is enabled. Means that the next time you press use
-    wallGripCheckEnabled = "private compensated boolean",
+    wallGripNormalGoal = "private compensated vector",    
+    wallGripAllowed = "private compensated boolean",
     
     leaping = "compensated boolean",
     timeOfLeap = "private compensated time",
@@ -74,8 +71,6 @@ function Fade:OnCreate()
     onCreate(self)
     
     self.wallGripTime = 0
-    self.wallGripRecheckDone = false
-    self.wallGripCheckEnabled = false
     
     self.leaping = false
     
@@ -107,56 +102,59 @@ function Fade:GetIsWallGripping()
     return self.wallGripTime ~= 0 
 end
 
-function Fade:HandleButtons(input)
+function Fade:OverrideUpdateOnGround(onGround)
+    return (onGround or self:GetIsWallGripping())
+end
 
-    Alien.HandleButtons(self, input)
+function Fade:GetCanStep()
+    return self:GetIsOnGround() and not self:GetIsWallGripping()
+end
+
+function Fade:ModifyGravityForce(gravityTable)
+    if self:GetIsWallGripping() or self:GetIsOnGround() then
+        gravityTable.gravity = 0        
+    elseif self:GetCrouching() then
+        gravityTable.gravity = gravityTable.gravity * 4
+        
+    end
+end
+
+function Fade:OnWorldCollision(normal)
+    self.wallGripAllowed = normal.y < 0.5 and not self:GetCrouching()
+end
+
+function Fade:HandleButtons(input)    
+    local wallGripPressed = bit.band(input.commands, Move.MovementModifier) ~= 0 and bit.band(input.commands, Move.Jump) == 0
     
-    if not self:GetIsWallGripping()  then
-        if bit.band(input.commands, Move.MovementModifier) ~= 0 then
-            
-            if self.wallGripCheckEnabled then
+    if not self:GetIsWallGripping() and wallGripPressed and self.wallGripAllowed then
+
+        // check if we can grab anything around us
+        local wallNormal = self:GetAverageWallWalkingNormal(Fade.kWallGripRange, Fade.kWallGripFeelerSize)
         
-                if not self:GetIsOnGround() then
-                    // check if we can grab anything around us
-                    local wallNormal = self:GetAverageWallWalkingNormal(Fade.kWallGripRange, Fade.kWallGripFeelerSize)
-                    
-                    if wallNormal then
-                    
-                        self.wallGripTime = Shared.GetTime()
-                        self.wallGripNormalGoal = wallNormal
-                        self.wallGripRecheckDone = false
-                        self:SetVelocity(Vector(0,0,0))
-                        
-                    end
-                    
-                end
-                
-                // we clear the wallGripCheckEnabled here to make sure we don't trigger a flood of TraceRays just because
-                // we hold down the use key
-                self.wallGripCheckEnabled = false
-            
-            end
+        if wallNormal then
         
+            self.wallGripTime = Shared.GetTime()
+            self.wallGripNormalGoal = wallNormal
+            self:SetVelocity(Vector(0,0,0))
+            
         end
     
     else
         
-        // we always abandon wall gripping if we blink or shadow step
-        local breakWallGrip = bit.band(input.commands, Move.Jump) ~= 0 or bit.band(input.commands, Move.SecondaryAttack) ~= 0
-        
-        // after sliding to a stop, pressing movment or crouch will drop the grip
-        if not breakWallGrip and Shared.GetTime() - self.wallGripTime > Fade.kWallGripSlideTime then
-            breakWallGrip = input.move:GetLength() > 0 or bit.band(input.commands, Move.Crouch) ~= 0 
-        end
+        // we always abandon wall gripping if we flap (even if we are sliding to a halt)
+        local breakWallGrip = bit.band(input.commands, Move.Jump) ~= 0 or input.move:GetLength() > 0 or self:GetCrouching() or bit.band(input.commands, Move.SecondaryAttack) ~= 0
         
         if breakWallGrip then
+        
             self.wallGripTime = 0
             self.wallGripNormal = nil
-            self.wallGripRecheckDone = false
+            self.wallGripAllowed = false
+            
         end
         
-    end
+    end 
     
+    Alien.HandleButtons(self, input)
 end
 
 function Fade:CalcWallGripSpeedFraction()
@@ -170,30 +168,9 @@ function Fade:CalcWallGripSpeedFraction()
     
 end
 
-local updatePosition = Fade.UpdatePosition
-function Fade:UpdatePosition(velocity, time)
-    local requestedVelocity = Vector(velocity)
-    
-    if self:GetIsWallGripping() then   
-        velocity = velocity * self:CalcWallGripSpeedFraction()
-    end
-    
-    velocity = updatePosition(self, velocity, time)
-    
-    if not self:GetIsWallGripping() and not self.wallGripCheckEnabled then
-        // if we bounced into something and we are not on the ground, we enable one
-        // wall gripping on the next use use.
-        // Lerks don't have any use other use for their use key, so this works in practice
-        local deltaV = (requestedVelocity - velocity):GetLength()
-        self.wallGripCheckEnabled = deltaV > 0 and not self:GetIsOnGround() 
-    end
-    
-    return velocity
-end 
-
-local preUpdateMove = Fade.PreUpdateMove
-function Fade:PreUpdateMove(input, runningPrediction)  
-    preUpdateMove(self, input, runningPrediction)
+local postUpdateMove = Fade.PostUpdateMove
+function Fade:PostUpdateMove(input, runningPrediction)  
+    postUpdateMove(self, input, runningPrediction)
  
     if (self:GetIsWallGripping()) then
         if (Shared.GetTime() > (self.wallGripTime + 0.08)) then        
@@ -219,13 +196,13 @@ function Fade:PreUpdateMove(input, runningPrediction)
         end        
     end
     
-    if self.leaping and Alien.GetIsOnGround(self) and (Shared.GetTime() > self.timeOfLeap + Fade.kLeapTime) then
+    if self.leaping and self:GetIsOnGround() and (Shared.GetTime() > self.timeOfLeap + Fade.kLeapTime) then
         self.leaping = false
     end
 end
 
 function Fade:OnLeap()
-    local newVelocity = self:GetViewCoords().zAxis * self.kLeapForce * self:GetMovementSpeedModifier()
+    local newVelocity = self:GetViewCoords().zAxis * self.kLeapForce * 1
     self:SetVelocity(newVelocity)  
     
     self.leaping = true
@@ -250,5 +227,26 @@ end
 function Fade:GetCanBeSetOnFire()
     return kFadedModFadeCanBeSetOnFire
 end   
+
+// No shadow step!
+function Fade:TriggerShadowStep(direction)
+end
+
+// Make the Faded silent
+function Alien:UpdateSilenceLevel()
+    self.silenceLevel = 3
+end    
+
+function Fade:UpdateSilenceLevel()
+    self.silenceLevel = 3
+end    
+
+function Fade:GetEffectParams(tableParams)
+    tableParams[kEffectFilterSilenceUpgrade] = true
+end    
+
+function Alien:GetEffectParams(tableParams)
+    tableParams[kEffectFilterSilenceUpgrade] = true
+end    
 
 Shared.LinkClassToMap("Fade", Fade.kMapName, networkVars)

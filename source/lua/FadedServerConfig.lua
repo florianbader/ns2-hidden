@@ -20,6 +20,8 @@ local defaultConfig = {
     faded_selection_chance = 0.6,
     time_in_seconds_selecting_equipment_is_allowed = 8,
     all_talk_enabled = true,
+    friendly_fire_scalar = 0.9,
+    fair_faded_rotation_enabled = true
 }
 WriteDefaultConfigFile(configFileName, defaultConfig)
 
@@ -32,3 +34,5 @@ kFadedModFriendlyFireEnabled = config.friendly_fire_enabled or defaultConfig.fad
 kFadedModFadedSelectionChance = config.faded_selection_chance or defaultConfig.faded_selection_chance
 kFadedModTimeInSecondsSelectingEquipmentIsAllowed = config.time_in_seconds_selecting_equipment_is_allowed or defaultConfig.time_in_seconds_selecting_equipment_is_allowed
 kFadedModAllTalkEnabled = config.all_talk_enabled or defaultConfig.all_talk_enabled
+kFriendlyFireScalar = config.friendly_fire_scalar or defaultConfig.friendly_fire_scalar
+kFadedModFairFadedRotation = config.fair_faded_rotation_enabled or defaultConfig.fair_faded_rotation_enabled

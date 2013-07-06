@@ -62,4 +62,4 @@ elseif (Client) then
     function Alien:Buy() end
     function Fade:Buy() end
     function Player:GetIsAllowedToBuy() return self:GetTeamNumber() == 1 end
-end    
+end   

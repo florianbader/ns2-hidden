@@ -27,7 +27,7 @@ FadedGUIMarineEquipmentMenu.kArrowTexture = "ui/menu/arrow_horiz.dds"
 FadedGUIMarineEquipmentMenu.kFont = "fonts/AgencyFB_small.fnt"
 FadedGUIMarineEquipmentMenu.kFont2 = "fonts/AgencyFB_small.fnt"
 
-FadedGUIMarineEquipmentMenu.kDescriptionFontName = "MicrogrammaDBolExt"
+FadedGUIMarineEquipmentMenu.kDescriptionFontName = "fonts/AgencyFB_small.fnt"
 FadedGUIMarineEquipmentMenu.kDescriptionFontSize = GUIScale(20)
 
 FadedGUIMarineEquipmentMenu.kScanLineHeight = GUIScale(256)

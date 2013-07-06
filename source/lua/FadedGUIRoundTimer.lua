@@ -11,14 +11,14 @@ local strformat = string.format
 class 'FadedGUIRoundTimer' (GUIScript)
 
 FadedGUIRoundTimer.kGameTimeBackgroundSize = Vector(200, GUIScale(32), 0)
-FadedGUIRoundTimer.kFontName = "Calibri"
+FadedGUIRoundTimer.kFontName = "fonts/AgencyFB_large.fnt"
 FadedGUIRoundTimer.kGameTimeTextSize = GUIScale(22)
 
 function FadedGUIRoundTimer:Initialize()
     self.gameTimeBackground = GUIManager:CreateGraphicItem()
     self.gameTimeBackground:SetSize(FadedGUIRoundTimer.kGameTimeBackgroundSize)
     self.gameTimeBackground:SetAnchor(GUIItem.Middle, GUIItem.Top)
-    self.gameTimeBackground:SetPosition( Vector(- FadedGUIRoundTimer.kGameTimeBackgroundSize.x / 2, 0, 0) )
+    self.gameTimeBackground:SetPosition( Vector(- FadedGUIRoundTimer.kGameTimeBackgroundSize.x / 2, 5, 0) )
     self.gameTimeBackground:SetIsVisible(false)
     self.gameTimeBackground:SetColor(Color(0,0,0,0.5))
     self.gameTimeBackground:SetLayer(kGUILayerCountDown)

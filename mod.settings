@@ -1,0 +1,11 @@
+name        = "The Faded"
+source_dir  = "source"
+output_dir  = "output"
+description = [=[The Faded is a new gameplay modification for Natural Selection 2 based on The Hidden: Source.
+
+This mod is still in development and not finished yet! There might be no servers and there might be bugs or changes to the gameplay, so be aware of that when you play it.
+If you found a bug or have a suggestion, please leave a comment below. I would really appreciate that.
+
+In The Faded you have the Marine team and the Fade. The Fade escaped the research facility of TSA where they made experiments with it. Unfortunately those experiments gave the Fade permanent upgrades which make him the perfect killer: fast (Celerity), stronger (Carapace and Adrenalin), silent, invisible (Cloak) and enhanced abilities (Shadowstep, Blink, Vortex). The Fade needs to kill the Marines within a given time, otherwise he loses. The Fade will be chosen randomly among all players, that's why you are only allowed to join the Marines team.]=]
+image       = "preview.jpg"
+publish_id = "6ed01f8"

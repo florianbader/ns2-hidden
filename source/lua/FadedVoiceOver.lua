@@ -9,7 +9,7 @@
 // Variables need to be global, so we don't have to overwrite the voice over functions,
 // but they still can access them
 kVoiceId = enum({
-    'Ping', 
+    'None', 'VoteEject', 'VoteConcede', 'Ping', 
     'MarineTaunt', 'MarineCovering', 'MarineFollowMe', 'MarineHostiles', 'MarineLetsMove',
     'AlienTaunt', 'AlienChuckle', 'AlienGrowl'
 })    

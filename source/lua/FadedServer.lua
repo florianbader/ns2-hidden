@@ -10,6 +10,7 @@
 Script.Load("lua/Server.lua")
 
 // Load faded mod server scripts
+
 Script.Load("lua/FadedShared.lua")
 Script.Load("lua/FadedServerConfig.lua")
 Script.Load("lua/FadedUpgradableMixin.lua")
@@ -23,6 +24,7 @@ Script.Load("lua/FadedPlayer_Server.lua")
 Script.Load("lua/FadedPointGiverMixin.lua")
 Script.Load("lua/FadedAcidRockets.lua")
 Script.Load("lua/FadedGamerules.lua")
+Script.Load("lua/FadedChatCommands.lua")
 
 // Only include the Test script in the development version
 if (kFadedModVersion:lower():find("development")) then

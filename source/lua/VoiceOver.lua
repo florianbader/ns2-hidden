@@ -2,9 +2,20 @@ LEFT_MENU = 1
 RIGHT_MENU = 2
 kMaxRequestsPerSide = 5
 
-Script.Load("lua/FadedVoiceOver.lua")
+kVoiceId = enum ({
 
-kAlienTauntSounds =
+    'None', 'VoteEject', 'VoteConcede', 'Ping',
+
+    'RequestWeld', 'MarineRequestMedpack', 'MarineRequestAmmo', 'MarineRequestOrder', 
+    'MarineTaunt', 'MarineCovering', 'MarineFollowMe', 'MarineHostiles', 'MarineLetsMove',
+    
+    'AlienRequestHarvester', 'AlienRequestHealing', 'AlienRequestMist', 'AlienRequestEnzyme',
+    'AlienTaunt', 'AlienFollowMe', 'AlienChuckle', 'EmbryoChuckle',
+
+
+})
+
+local kAlienTauntSounds =
 {
     [kTechId.Skulk] = "sound/NS2.fev/alien/skulk/taunt",
     [kTechId.Gorge] = "sound/NS2.fev/alien/gorge/taunt",
@@ -33,7 +44,7 @@ local function VoteConcedeRound(player)
     
 end
 
-function GetLifeFormSound(player)
+local function GetLifeFormSound(player)
 
     if player and player:isa("Alien") then    
         return kAlienTauntSounds[player:GetTechId()] or ""    
@@ -47,26 +58,40 @@ local function PingInViewDirection(player)
 
     if player and (not player.lastTimePinged or player.lastTimePinged + 60 < Shared.GetTime()) then
     
-        local activeWeapon = player:GetActiveWeapon()
-    
         local startPoint = player:GetEyePos()
         local endPoint = startPoint + player:GetViewCoords().zAxis * 40        
-        local trace = Shared.TraceRay(startPoint, endPoint,  CollisionRep.Default, PhysicsMask.Bullets, EntityFilterOne(player))        
-        player:GetTeam():SetCommanderPing(trace.endPoint)
+        local trace = Shared.TraceRay(startPoint, endPoint,  CollisionRep.Default, PhysicsMask.Bullets, EntityFilterOne(player))   
+        
+        // seems due to changes to team mixin you can be assigned to a team which does not implement SetCommanderPing
+        local team = player:GetTeam()
+        if team and team.SetCommanderPing then
+            player:GetTeam():SetCommanderPing(trace.endPoint)
+        end
+        
         player.lastTimePinged = Shared.GetTime()
         
     end
 
 end
 
-function GetVoiceSoundData(voiceId)
-    return kSoundData[voiceId]
+local function GiveWeldOrder(player)
+
+    if ( player:isa("Marine") or player:isa("Exo") ) and player:GetArmor() < player:GetMaxArmor() then
+    
+        for _, marine in ipairs(GetEntitiesForTeamWithinRange("Marine", player:GetTeamNumber(), player:GetOrigin(), 8)) do
+        
+            if player ~= marine and marine:GetWeapon(Welder.kMapName) then
+                marine:GiveOrder(kTechId.AutoWeld, player:GetId(), player:GetOrigin(), nil, true, false)
+            end
+        
+        end
+    
+    end
+
 end
 
-for _, soundData in pairs(kSoundData) do
-    if soundData.Sound ~= nil and string.len(soundData.Sound) > 0 then
-        PrecacheAsset(soundData.Sound)
-    end
+function GetVoiceSoundData(voiceId)
+    return kSoundData[voiceId]
 end
 
 function GetRequestMenu(side, className)
@@ -111,9 +136,10 @@ end
 local kAutoMarineVoiceOvers = {}
 local kAutoAlienVoiceOvers = {}
 
+Script.Load("lua/FadedVoiceOver.lua")
 
-// defines priority and rules as of when to trigger a sound effect
-local function BuildVoiceOverRules()
-
-
+for _, soundData in pairs(kSoundData) do
+    if soundData.Sound ~= nil and string.len(soundData.Sound) > 0 then
+        PrecacheAsset(soundData.Sound)
+    end
 end

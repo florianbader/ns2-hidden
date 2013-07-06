@@ -63,7 +63,6 @@ function UpgradableMixin:GetUpgrades()
     return upgrades
     
 end
-AddFunctionContract(UpgradableMixin.GetUpgrades, { Arguments = { "Entity" }, Returns = { "table" } })
 
 function UpgradableMixin:GiveUpgrade(techId) 
 
@@ -124,7 +123,6 @@ function UpgradableMixin:GiveUpgrade(techId)
     return upgradeGiven
     
 end
-AddFunctionContract(UpgradableMixin.GiveUpgrade, { Arguments = { "Entity", "number" }, Returns = { "boolean" } })
 
 function UpgradableMixin:RemoveUpgrade(techId)
 
@@ -191,4 +189,8 @@ function UpgradableMixin:ClearUpgrades()
     self.upgrade7 = kTechId.None
     self.upgrade8 = kTechId.None
     
-end
+end 
+
+function GetHasSilenceUpgrade(callingEntity)
+    return true
+end    

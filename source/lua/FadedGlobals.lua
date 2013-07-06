@@ -6,7 +6,7 @@
 //
 // =====================================================
 
-kFadedModVersion = "0.9-beta"
+kFadedModVersion = "0.95-beta"
 
 kFadedModTimeTillNewRound = 6
 kFadedModPregameLength = 6
@@ -27,7 +27,7 @@ kFadedModTimeInSecondsSelectingEquipmentIsAllowed = 8
 
 kFadedModAcidRocketsEnergyCost = 15
 
-kEnergyUpdateRate = 0.7
+kEnergyUpdateRate = 0.8
 
 kFadedModFadeCanBeSetOnFire = true
 kFlamethrowerBurnDuration = 1
@@ -45,3 +45,11 @@ kFadedModLightColorScale = 0.15
 kFadedModLightIntensity = 0.2
 
 kFadedModAllTalkEnabled = true
+
+kFadeFov = 120
+
+kFadedModFairFadedRotation = true
+
+kTimeStartFade = 10
+kTimeEndFade = 11
+
